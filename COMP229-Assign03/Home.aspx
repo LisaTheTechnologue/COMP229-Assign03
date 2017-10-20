@@ -7,6 +7,10 @@ b.	provide a list of all students’ names from the database.
 c.	allow for the addition of new students to the database.
 d.	allow a user to click on a student, loading the Student Page.
 -->
+    <div class="jumbotron" id="hero">
+        <h1>La Vie</h1>
+        <h4>School of Engineering</h4>
+    </div>
     <ul>
         <asp:Repeater ID="myRepeater" runat="server" OnItemCommand="myRepeater_ItemCommand" >
             <ItemTemplate>
