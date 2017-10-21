@@ -20,73 +20,38 @@ namespace COMP229_Assign03
             // Only build the list on the initial arrival, not after button presses
             if (!IsPostBack)
             {
-                GetClasses();
+                GetStudents();
             }
         }
 
-        private void GetClasses()
+        private void GetStudents()
         {
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("Select * from Courses;", thisConnection);
+                SqlCommand comm = new SqlCommand("Select LastName, FirstMidName from Students;", thisConnection);
                 thisConnection.Open();
                 SqlDataReader reader = comm.ExecuteReader();
 
-                myRepeater.DataSource = reader;
-                myRepeater.DataBind();
+                listSt.DataSource = reader;
+                listSt.DataBind();
 
-                //while (reader.Read())
-                //{
-                //    Label myLabel = new Label();
-                //    myLabel.Text = reader["Title"].ToString();
-                //    myPlaceHolder.Controls.Add(myLabel);
-                //    myPlaceHolder.Controls.Add(new LiteralControl("<br/>"));
-                //}
-
+                reader.Close();
                 thisConnection.Close();
             }
         }
-
-        protected void myRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void listSt_ItemCommand(object source, DataListCommandEventArgs e)
         {
-            // try-finally to ensure that the connection is closed if there's an issue
-            try
+            if (e.CommandName == "MoreDetailsPlease")
+            { }
+        }
+
+        protected void listSt_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "MoreDetailsPlease")
             {
-                if (e.CommandName == "deleteCommand")
-                {
-                    // You can't delete a record with references in other tables, so delete those references first
-                    SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE CourseID=@CourseID", connection);
-                    SqlCommand deleteCourse = new SqlCommand("DELETE FROM Courses WHERE CourseID=@CourseID", connection);
-
-                    // Parameterize everything, even if the user isn't entering the values
-                    deleteEnrollments.Parameters.AddWithValue("@CourseID", e.CommandArgument);
-                    deleteCourse.Parameters.AddWithValue("@CourseID", e.CommandArgument);
-
-                    connection.Open(); // open the cmd connection
-
-                    // delete the references FIRST
-                    deleteEnrollments.ExecuteNonQuery();
-                    deleteCourse.ExecuteNonQuery();
-                }
-                else if (e.CommandName == "updateCommand")
-                {
-                    SqlCommand cmd = new SqlCommand("UPDATE Courses SET Title=@UpdatedTitle WHERE Title=@Title", connection);
-                    cmd.Parameters.AddWithValue("@Title", e.CommandArgument);
-                    cmd.Parameters.AddWithValue("@UpdatedTitle", e.CommandArgument + " - Updated");
-
-                    connection.Open(); // open the cmd connection
-
-                    cmd.ExecuteNonQuery();
-                }
+                
             }
-            finally
-            {
-                connection.Close();
-            }
-
-            // Re-bind the data with the changed database records
-            GetClasses();
         }
     }
 }

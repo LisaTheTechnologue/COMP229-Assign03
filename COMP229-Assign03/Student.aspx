@@ -8,4 +8,11 @@ i.	Clicking on a course will load that course's Course Page.
 c.	include an Update link to the Update Page. 
 d.	include parameterized SQL queries for all actions. 
 e.	include a delete button to remove the selected student (and redirect to the home page). -->
+
+    Student ID: <%#Eval("StudentID")%> <br />
+    Name: <%#Eval("LastName") %> <%#Eval("FirstMidName") %> <br />
+    Enrollment Date: <%#Eval("EnrollmentDate") %>
+    Courses: <%#Eval("Title") %>
+    <asp:LinkButton Text="Update" CommandName="updateCommand" CommandArgument='<%# Eval("Title")%>' runat="server"/>
+    <asp:LinkButton Text="Delete" CommandName="deleteCommand" CommandArgument='<%# Eval("Title")%>' runat="server"/>
 </asp:Content>

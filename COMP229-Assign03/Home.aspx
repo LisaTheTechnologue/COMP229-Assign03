@@ -8,19 +8,19 @@ c.	allow for the addition of new students to the database.
 d.	allow a user to click on a student, loading the Student Page.
 -->
     <div class="jumbotron" id="hero">
-        <h1>La Vie</h1>
-        <h4>School of Engineering</h4>
     </div>
-    <ul>
-        <asp:Repeater ID="myRepeater" runat="server" OnItemCommand="myRepeater_ItemCommand" >
+    <ol>
+        <asp:Repeater ID="listSt" runat="server" OnItemCommand="listSt_ItemCommand">
             <ItemTemplate>
                 <li>
-                    <span id="class"><%# Eval("Title") %></span>
-                    <asp:Button runat="server" Text="Update" CommandName="updateCommand" CommandArgument='<%# Eval("Title") %>' /> | 
-                    <asp:Button runat="server" Text="Delete" CommandName="deleteCommand" CommandArgument='<%# Eval("CourseID") %>' />
+                    <asp:LinkButton ID="stName" runat="server"
+                        Text='<%#Eval("FirstName") + " " + Eval("LastName")%>'
+                        CommandName="MoreDetail"
+                        CommandArgument='<%#Eval("StudentID")%>' />
+
                 </li>
             </ItemTemplate>
         </asp:Repeater>
-    </ul>    
+    </ol>
 
 </asp:Content>
