@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="COMP229_Assign03._Default" %>
+﻿<%@ Page Title="Home" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="COMP229_Assign03._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <!--3.	Your Landing Page will: 
@@ -9,15 +9,15 @@ d.	allow a user to click on a student, loading the Student Page.
 -->
     <div class="jumbotron" id="hero">
     </div>
+    <asp:Label ID="employeesLabel" runat="server" />
     <ol>
         <asp:Repeater ID="listSt" runat="server" OnItemCommand="listSt_ItemCommand">
             <ItemTemplate>
                 <li>
                     <asp:LinkButton ID="stName" runat="server"
-                        Text='<%#Eval("FirstName") + " " + Eval("LastName")%>'
+                        Text='<%#Eval("FirstMidName") + " " + Eval("LastName")%>'
                         CommandName="MoreDetail"
                         CommandArgument='<%#Eval("StudentID")%>' />
-
                 </li>
             </ItemTemplate>
         </asp:Repeater>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -10,58 +9,71 @@ using System.Web.UI.WebControls;
 
 namespace COMP229_Assign03
 {
-    public partial class Student : Page
+    public partial class Student : System.Web.UI.Page
     {
         // Building the connection from a string; for an example using the ConnectionStrings in web.config, go to line 29
         private SqlConnection connection = new SqlConnection("Server=localhost;Initial Catalog=Comp229Assign03;Integrated Security=True");
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Only build the list on the initial arrival, not after button presses
             if (!IsPostBack)
             {
-                GetClasses();
+                GetStInfo();
             }
         }
-
-        private void GetClasses()
+        private void GetStInfo()
         {
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("Select * from Students;", thisConnection);
+                int count = 1;
+                string ssName = Session["studentID"].ToString();
+                //SqlCommand sqlcom = new SqlCommand("select st.* from Students st where st.StudentID = '" + ssName + "'", thisConnection);
+                SqlCommand comm = new SqlCommand("Select st.*, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
+                    " join Enrollments e on st.StudentID = e.StudentID " +
+                    "join Courses c on e.CourseID = c.CourseID " +
+                    "where st.StudentID = '" + ssName + "';", thisConnection);
                 thisConnection.Open();
                 SqlDataReader reader = comm.ExecuteReader();
+                stCourse.Text = "";
+                while (reader.Read())
+                {
+                    stName.Text = reader["FirstMidName"].ToString() + " " + reader["LastName"].ToString();
+                    stID.Text = reader["StudentID"].ToString();
+                    stDate.Text = reader["EnrollmentDate"].ToString();
+                    stGrade.Text = reader["Grade"].ToString();
+                    stCourse.Text += "<asp:LinkButton ID='Course' runat='server'" + count + " CommandName='MoreDetail' " +
+                        "OnClick='Change' CommandArgument='" + reader["CourseID"] + "' Text='" + reader["Title"].ToString() + "'/><br/> ";
 
-                listSt.DataSource = reader;
-                listSt.DataBind();
+                    count++;
+                }
 
-                //while (reader.Read())
-                //{
-                //    Label myLabel = new Label();
-                //    myLabel.Text = reader["Title"].ToString();
-                //    myPlaceHolder.Controls.Add(myLabel);
-                //    myPlaceHolder.Controls.Add(new LiteralControl("<br/>"));
-                //}
-
+                reader.Close();
                 thisConnection.Close();
             }
         }
-
-        protected void listSt_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void Change(object source, RepeaterCommandEventArgs e)
         {
-            // try-finally to ensure that the connection is closed if there's an issue
             try
             {
-                if (e.CommandName == "deleteCommand")
+                if (e.CommandName == "MoreDetail")
+                {
+                    Session["courseID"] = e.CommandArgument.ToString();
+                    Response.Redirect("Course Enrollment.aspx");
+                }
+                else if (e.CommandName == "Update")
+                {
+                    Response.Redirect("Update.aspx");
+                }
+                else if (e.CommandName == "Delete")
                 {
                     // You can't delete a record with references in other tables, so delete those references first
-                    SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE CourseID=@CourseID", connection);
-                    SqlCommand deleteCourse = new SqlCommand("DELETE FROM Courses WHERE CourseID=@CourseID", connection);
+                    SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE StudentID=@StudentID", connection);
+                    SqlCommand deleteCourse = new SqlCommand("DELETE FROM Student WHERE StudentID=@StudentID", connection);
 
                     // Parameterize everything, even if the user isn't entering the values
-                    deleteEnrollments.Parameters.AddWithValue("@CourseID", e.CommandArgument);
-                    deleteCourse.Parameters.AddWithValue("@CourseID", e.CommandArgument);
+                    deleteEnrollments.Parameters.AddWithValue("@StudentID", e.CommandArgument);
+                    deleteCourse.Parameters.AddWithValue("@StudentID", e.CommandArgument);
 
                     connection.Open(); // open the cmd connection
 
@@ -69,24 +81,11 @@ namespace COMP229_Assign03
                     deleteEnrollments.ExecuteNonQuery();
                     deleteCourse.ExecuteNonQuery();
                 }
-                else if (e.CommandName == "updateCommand")
-                {
-                    SqlCommand cmd = new SqlCommand("UPDATE Courses SET Title=@UpdatedTitle WHERE Title=@Title", connection);
-                    cmd.Parameters.AddWithValue("@Title", e.CommandArgument);
-                    cmd.Parameters.AddWithValue("@UpdatedTitle", e.CommandArgument + " - Updated");
-
-                    connection.Open(); // open the cmd connection
-
-                    cmd.ExecuteNonQuery();
-                }
             }
             finally
             {
                 connection.Close();
             }
-
-            // Re-bind the data with the changed database records
-            GetClasses();
         }
     }
 }

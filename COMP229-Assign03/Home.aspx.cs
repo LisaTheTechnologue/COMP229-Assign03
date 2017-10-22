@@ -29,28 +29,23 @@ namespace COMP229_Assign03
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("Select LastName, FirstMidName from Students;", thisConnection);
+                SqlCommand comm = new SqlCommand("Select LastName, FirstMidName, StudentID from Students;", thisConnection);
                 thisConnection.Open();
                 SqlDataReader reader = comm.ExecuteReader();
 
                 listSt.DataSource = reader;
                 listSt.DataBind();
-
+                
                 reader.Close();
                 thisConnection.Close();
             }
         }
-        protected void listSt_ItemCommand(object source, DataListCommandEventArgs e)
-        {
-            if (e.CommandName == "MoreDetailsPlease")
-            { }
-        }
-
         protected void listSt_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "MoreDetailsPlease")
+            if (e.CommandName == "MoreDetail")
             {
-                
+                Session["studentID"] = e.CommandArgument.ToString() ;
+                Response.Redirect("Student.aspx");
             }
         }
     }

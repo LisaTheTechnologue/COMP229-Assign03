@@ -1,9 +1,27 @@
 ﻿/* Move down content because we have a fixed navbar that is 50px tall */
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+    /*padding-top: 40px;
+    padding-bottom: 20px;*/
+    padding: 50px 15px;
+}
+/*Navbar fx and collapse Bootstrap*/
+.navbar {
+    height: 40px;
 }
 
+#logo {
+    display: inline-block;
+    
+}
+
+body > .container, .body-content {
+    padding: 50px 15px;
+}
+
+.collapsing, .navbar-collapse.in {
+    background-color: rgb(43, 43, 43);
+    text-align: center;
+}
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {

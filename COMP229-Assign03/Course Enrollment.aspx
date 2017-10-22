@@ -8,6 +8,6 @@ a.	display all students enrolled in the selected course.
 b.	allow for the removal and addition of a student to the selected course.
 
 -->
-
-
+    <asp:Label ID="courseName" runat="server" Text='<%#Eval("Title") %>' />
+    <asp:Label ID="courseSt" runat="server" Text='<%#Eval("Title") %>' />
 </asp:Content>

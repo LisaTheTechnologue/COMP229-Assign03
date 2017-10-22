@@ -83,3 +83,7 @@ C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\
 C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\obj\Debug\COMP229-Assign03.csproj.CoreCompileInputs.cache
 C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\obj\Debug\COMP229-Assign03.dll
 C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\obj\Debug\COMP229-Assign03.pdb
+C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\bin\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+C:\Users\Jolisa Chan\Downloads\Year 2\COMP229\COMP229-Assign03\COMP229-Assign03\bin\System.Diagnostics.DiagnosticSource.xml
