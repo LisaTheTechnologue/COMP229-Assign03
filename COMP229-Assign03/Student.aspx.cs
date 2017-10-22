@@ -29,57 +29,58 @@ namespace COMP229_Assign03
                 int count = 1;
                 string ssName = Session["studentID"].ToString();
                 //SqlCommand sqlcom = new SqlCommand("select st.* from Students st where st.StudentID = '" + ssName + "'", thisConnection);
-                SqlCommand comm = new SqlCommand("Select st.*, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
+                SqlCommand comm = new SqlCommand("Select st.*, e.StudentID, e.Grade, e.CourseID,  from Students st" +
                     " join Enrollments e on st.StudentID = e.StudentID " +
                     "join Courses c on e.CourseID = c.CourseID " +
                     "where st.StudentID = '" + ssName + "';", thisConnection);
                 thisConnection.Open();
                 SqlDataReader reader = comm.ExecuteReader();
-                stCourse.Text = "";
+
                 while (reader.Read())
                 {
                     stName.Text = reader["FirstMidName"].ToString() + " " + reader["LastName"].ToString();
                     stID.Text = reader["StudentID"].ToString();
                     stDate.Text = reader["EnrollmentDate"].ToString();
-                    stGrade.Text = reader["Grade"].ToString();
-                    stCourse.Text += "<asp:LinkButton ID='Course' runat='server'" + count + " CommandName='MoreDetail' " +
-                        "OnClick='Change' CommandArgument='" + reader["CourseID"] + "' Text='" + reader["Title"].ToString() + "'/><br/> ";
-
-                    count++;
+                    
                 }
+
+                listCr.DataSource = reader;
+                listCr.DataBind();
 
                 reader.Close();
                 thisConnection.Close();
             }
         }
-        protected void Change(object source, RepeaterCommandEventArgs e)
+        protected void Change(object source, EventArgs e)
         {
+            LinkButton btn = (LinkButton)(source);
+            string value = btn.CommandName;
             try
             {
-                if (e.CommandName == "MoreDetail")
+                if (value == "MoreDetail")
                 {
-                    Session["courseID"] = e.CommandArgument.ToString();
+                    Session["courseID"] = btn.CommandArgument.ToString();
                     Response.Redirect("Course Enrollment.aspx");
                 }
-                else if (e.CommandName == "Update")
+                else if (value == "Update")
                 {
                     Response.Redirect("Update.aspx");
                 }
-                else if (e.CommandName == "Delete")
+                else if (value == "Delete")
                 {
                     // You can't delete a record with references in other tables, so delete those references first
                     SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE StudentID=@StudentID", connection);
-                    SqlCommand deleteCourse = new SqlCommand("DELETE FROM Student WHERE StudentID=@StudentID", connection);
+                    SqlCommand deleteStudent = new SqlCommand("DELETE FROM Students WHERE StudentID=@StudentID", connection);
 
                     // Parameterize everything, even if the user isn't entering the values
-                    deleteEnrollments.Parameters.AddWithValue("@StudentID", e.CommandArgument);
-                    deleteCourse.Parameters.AddWithValue("@StudentID", e.CommandArgument);
+                    deleteEnrollments.Parameters.AddWithValue("@StudentID", btn.CommandArgument);
+                    deleteStudent.Parameters.AddWithValue("@StudentID", btn.CommandArgument);
 
                     connection.Open(); // open the cmd connection
 
                     // delete the references FIRST
                     deleteEnrollments.ExecuteNonQuery();
-                    deleteCourse.ExecuteNonQuery();
+                    deleteStudent.ExecuteNonQuery();
                 }
             }
             finally

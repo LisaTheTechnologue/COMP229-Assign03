@@ -25,16 +25,24 @@ e.	include a delete button to remove the selected student (and redirect to the h
                 <asp:Label ID="stDate" runat="server" /></td>
         </tr>
         <tr>
-            <td>Grade:</td>
-            <td>
-                <asp:Label ID="stGrade" runat="server" /></td>
-        </tr>
-        <tr>
             <td>Course(s):</td>
             <td>
-                <asp:Label ID="stCourse" runat="server" /></td>
+                <ol>
+                    <asp:Repeater ID="listCr" runat="server" OnItemCommand="Change">
+                        <ItemTemplate>
+                            <li>
+                                <asp:LinkButton ID="crName" runat="server"
+                                    Text='<%#Eval("Title") +" - Grade: " + Eval("Grade")%>'
+                                    CommandName="MoreDetail"
+                                    CommandArgument='<%#Eval("CourseID")%>' />
+                            </li>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </ol>
+            </td>
         </tr>
     </table>
-    <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" Text="Update Info" runat="server"/> <br />
-    <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete this Student" runat="server"/>
+    <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" CommandArgument="Update" Text="Update Info" runat="server" />
+    <br />
+    <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete this Student" runat="server" CommandArgument='<%#Eval("StudentID")%>' />
 </asp:Content>

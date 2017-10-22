@@ -50,7 +50,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a id="logo" class="navbar-brand" href="#">
-                        <img src="/Asset/personalLogo.ico" width="25" height="25" class="d-inline-block align-top" alt="logo">
+                        <img src="/Assets/personalLogo.ico" width="25" height="25" class="d-inline-block align-top" alt="logo">
                     </a>
                     
                 </div>

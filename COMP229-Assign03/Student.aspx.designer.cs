@@ -40,22 +40,13 @@ namespace COMP229_Assign03 {
         protected global::System.Web.UI.WebControls.Label stDate;
         
         /// <summary>
-        /// stGrade control.
+        /// listCr control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label stGrade;
-        
-        /// <summary>
-        /// stCourse control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label stCourse;
+        protected global::System.Web.UI.WebControls.Repeater listCr;
         
         /// <summary>
         /// updateInfo control.
