@@ -65,12 +65,12 @@
             </div>
         </div>
         <div class="container body-content">
-            <asp:Label runat="server" ID="pageTitle"></asp:Label>
+            <div style="text-align:center"><asp:Label runat="server" ID="pageTitle"></asp:Label></div>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Jolisa Chan Application</p>
             </footer>
         </div>
 

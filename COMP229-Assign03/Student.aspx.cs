@@ -26,27 +26,26 @@ namespace COMP229_Assign03
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                int count = 1;
-                string ssName = Session["studentID"].ToString();
+               string ssName = Session["studentID"].ToString();
                 //SqlCommand sqlcom = new SqlCommand("select st.* from Students st where st.StudentID = '" + ssName + "'", thisConnection);
-                SqlCommand comm = new SqlCommand("Select st.*, e.StudentID, e.Grade, e.CourseID,  from Students st" +
+                SqlCommand comm = new SqlCommand("Select st.*, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
                     " join Enrollments e on st.StudentID = e.StudentID " +
                     "join Courses c on e.CourseID = c.CourseID " +
                     "where st.StudentID = '" + ssName + "';", thisConnection);
                 thisConnection.Open();
                 SqlDataReader reader = comm.ExecuteReader();
 
+                listCr.DataSource = reader;
+                listCr.DataBind();
+
                 while (reader.Read())
                 {
                     stName.Text = reader["FirstMidName"].ToString() + " " + reader["LastName"].ToString();
                     stID.Text = reader["StudentID"].ToString();
                     stDate.Text = reader["EnrollmentDate"].ToString();
-                    
                 }
 
-                listCr.DataSource = reader;
-                listCr.DataBind();
-
+                
                 reader.Close();
                 thisConnection.Close();
             }
@@ -57,12 +56,7 @@ namespace COMP229_Assign03
             string value = btn.CommandName;
             try
             {
-                if (value == "MoreDetail")
-                {
-                    Session["courseID"] = btn.CommandArgument.ToString();
-                    Response.Redirect("Course Enrollment.aspx");
-                }
-                else if (value == "Update")
+                if (value == "Update")
                 {
                     Response.Redirect("Update.aspx");
                 }
@@ -86,6 +80,14 @@ namespace COMP229_Assign03
             finally
             {
                 connection.Close();
+            }
+        }
+        protected void listCr_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "MoreDetail")
+            {
+                Session["courseID"] = e.CommandArgument.ToString();
+                Response.Redirect("Course Enrollment.aspx");
             }
         }
     }

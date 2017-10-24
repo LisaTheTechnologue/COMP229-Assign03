@@ -27,8 +27,8 @@ e.	include a delete button to remove the selected student (and redirect to the h
         <tr>
             <td>Course(s):</td>
             <td>
-                <ol>
-                    <asp:Repeater ID="listCr" runat="server" OnItemCommand="Change">
+                <ul>
+                    <asp:Repeater ID="listCr" runat="server" OnItemCommand="listCr_ItemCommand">
                         <ItemTemplate>
                             <li>
                                 <asp:LinkButton ID="crName" runat="server"
@@ -38,7 +38,7 @@ e.	include a delete button to remove the selected student (and redirect to the h
                             </li>
                         </ItemTemplate>
                     </asp:Repeater>
-                </ol>
+                </ul>
             </td>
         </tr>
     </table>
