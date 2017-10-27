@@ -31,16 +31,19 @@ namespace COMP229_Assign03
             {
                 string ssName = Session["studentID"].ToString();
                 SqlCommand comm = new SqlCommand("Select * from Students"
-                    + "where st.StudentID = '" + ssName + "'; ", thisConnection);
-                thisConnection.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-
-                StudentInfo.DataSource = reader;
-                StudentInfo.DataBind();
-
-
-
-                thisConnection.Close();
+                    + "where st.StudentID = @ssName ; ", thisConnection);
+                comm.Parameters.Add("EmployeeID", SqlDbType.Int);
+                comm.Parameters["EmployeeID"].Value = ssName;
+                try
+                {
+                    thisConnection.Open();
+                    SqlDataReader reader = comm.ExecuteReader();
+                    studentData.DataSource = reader;
+                    studentData.DataKeyNames = new string[] { "EmployeeID" };
+                    studentData.DataBind();
+                    reader.Close();
+                }
+                finally { thisConnection.Close(); }
             }
         }
         //protected void studentInfo_ItemCommand(object source, DataListCommandEventArgs e)
@@ -157,26 +160,61 @@ namespace COMP229_Assign03
         //    StudentInfo.EditIndex = -1;
         //    GetUpdate();
         //}
-        protected void UpdateCustomer(object sender, GridViewUpdateEventArgs e)
+        protected void studentData_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
         {
-            string CustomerID = ((Label)StudentInfo.Rows[e.RowIndex]
-                                .FindControl("lblCustomerID")).Text;
-            string Name = ((TextBox)StudentInfo.Rows[e.RowIndex]
-                                .FindControl("txtContactName")).Text;
-            string Company = ((TextBox)StudentInfo.Rows[e.RowIndex]
-                                .FindControl("txtCompany")).Text;
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "update customers set ContactName=@ContactName," +
-             "CompanyName=@CompanyName where CustomerID=@CustomerID;" +
-             "select CustomerID,ContactName,CompanyName from customers";
-            cmd.Parameters.Add("@CustomerID", SqlDbType.VarChar).Value = CustomerID;
-            cmd.Parameters.Add("@ContactName", SqlDbType.VarChar).Value = Name;
-            cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar).Value = Company;
-            StudentInfo.EditIndex = -1;
-            StudentInfo.DataSource = GetData(cmd);
-            StudentInfo.DataBind();
+            int studentID = (int)studentData.DataKey.Value;
+            TextBox newFirstMidNameTextBox =
+            (TextBox)studentData.FindControl("txtFirstMidName");
+            TextBox newLastNameTextBox =
+            (TextBox)studentData.FindControl("txtLastName");
+            TextBox newEnrollmentDateTextBox =
+            (TextBox)studentData.FindControl("txtEnrollmentDate");
+            TextBox newGradeTextBox =
+            (TextBox)studentData.FindControl("txtGrade");
+            string newFMName = newFirstMidNameTextBox.Text;
+            string newLName = newLastNameTextBox.Text;
+            // Date strings are interpreted according to the current culture.
+            // If the culture is en-US, this is interpreted as "January 8, 2008",
+            // but if the user's computer is fr-FR, this is interpreted as "August 1, 2008"
+            string date = newEnrollmentDateTextBox.Text;
+            // Specify exactly how to interpret the string.
+            IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
+
+            // Alternate choice: If the string has been input by an end user, you might 
+            // want to format it according to the current culture:
+            // IFormatProvider culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            DateTime newEnrollment = DateTime.Parse(date, culture, System.Globalization.DateTimeStyles.AssumeLocal);
+            string newGrade = newGradeTextBox.Text;
+            
+            using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
+            {
+                SqlCommand comm = new SqlCommand("UpdateItem", thisConnection);
+                comm.CommandType = CommandType.StoredProcedure;
+                comm.Parameters.Add("StudentID", SqlDbType.Int);
+                comm.Parameters["StudentID"].Value = studentID;
+                comm.Parameters.Add("newFMName", SqlDbType.NVarChar, 50);
+                comm.Parameters["newFMName"].Value = newFMName;
+                comm.Parameters.Add("newLName", SqlDbType.NVarChar, 50);
+                comm.Parameters["newLName"].Value = newLName;
+                comm.Parameters.Add("newEnrollment", SqlDbType.DateTime);
+                comm.Parameters["newEnrollment"].Value = newEnrollment;
+                comm.Parameters.Add("newGrade", SqlDbType.Int);
+                comm.Parameters["newGrade"].Value = newGrade;
+
+
+                try
+                {
+                    thisConnection.Open();
+                    comm.ExecuteNonQuery();
+                }
+                finally
+                {
+                    thisConnection.Close();
+                }
+                studentData.ChangeMode(DetailsViewMode.ReadOnly);
+                GetUpdate();
+            }
         }
     }
 }
- 
+

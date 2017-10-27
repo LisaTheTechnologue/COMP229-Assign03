@@ -28,27 +28,29 @@ namespace COMP229_Assign03
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("Select Distinct st.*, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
+                SqlCommand comm = new SqlCommand("Select  st.*, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
                     " join Enrollments e on st.StudentID = e.StudentID " +
                     "join Courses c on e.CourseID = c.CourseID " +
                     "where c.CourseID = " + Session["courseID"] + ";", thisConnection);
-                thisConnection.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-                listSt.DataSource = reader;
-                listSt.DataBind();
+
                 SqlCommand commAdd = new SqlCommand("Select st.FirstMidName + ' ' + st.LastName as FullName, st.StudentID, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
-                    " left join Enrollments e on st.StudentID = e.StudentID " +
-                    "leftjoin Courses c on e.CourseID = c.CourseID " +
+                    " join Enrollments e on st.StudentID = e.StudentID " +
+                    "join Courses c on e.CourseID = c.CourseID " +
                     "where not c.CourseID = " + Session["courseID"] + ";", thisConnection);
-                
-                
-                while (reader.Read())
-                {
-                    courseName.Text = reader["Title"].ToString();
-                }
-                reader.Close();
+
+
+                //while (reader.Read())
+                //{
+                //    courseName.Text = reader["Title"].ToString();
+                //}
+                //reader.Close();
                 try
                 {
+                    thisConnection.Open();
+                    SqlDataReader reader = comm.ExecuteReader();
+                    StudentInfo.DataSource = reader;
+                    StudentInfo.DataBind();
+                    reader.Close();
                     SqlDataReader readerAdd = commAdd.ExecuteReader();
                     studentList.DataSource = readerAdd;
                     studentList.DataTextField = "FullName";
@@ -57,13 +59,12 @@ namespace COMP229_Assign03
                     readerAdd.Close();
                 }
                 finally
-                {
-                    
+                {                    
                     thisConnection.Close();
                 }
             }
         }
-        protected void listSt_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void listSt_ItemCommand(object source, GridViewCommandEventArgs e)
         {
             try
             {
@@ -71,12 +72,13 @@ namespace COMP229_Assign03
                 {
                     using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
                     {
+
                         SqlCommand commStringAdd = new SqlCommand("INSERT INTO Enrollments (CourseID, StudentID, Grade) " +
                             "VALUES(@CourseID, @StudentID, @Grade) ", conn);
                         commStringAdd.Parameters.Add("@CourseID", System.Data.SqlDbType.Int);
                         commStringAdd.Parameters["@CourseID"].Value = Session["CourseID"];
                         commStringAdd.Parameters.Add("@StudentID", System.Data.SqlDbType.Int);
-                        commStringAdd.Parameters["@StudentID"].Value = studentList.SelectedItem.Value;
+                        //commStringAdd.Parameters["@StudentID"].Value = studentList.SelectedItem.Value;
                         commStringAdd.Parameters.Add("@Grade", System.Data.SqlDbType.Int);
                         commStringAdd.Parameters["@Grade"].Value = 0;
 
@@ -105,20 +107,11 @@ namespace COMP229_Assign03
 
                     cmd.ExecuteNonQuery();
                 }
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        protected void Change(object source, EventArgs e)
-        {
-            LinkButton btn = (LinkButton)(source);
-            string value = btn.CommandName;
-            try
-            {
-                if (value == "Delete")
+
+                else if (e.CommandName == "Delete")
                 {
+                    Button btn = (Button)(source);
+                    
                     // You can't delete a record with references in other tables, so delete those references first
                     SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE StudentID=@StudentID", connection);
                     SqlCommand deleteStudent = new SqlCommand("DELETE FROM Students WHERE StudentID=@StudentID", connection);
@@ -138,6 +131,39 @@ namespace COMP229_Assign03
             {
                 connection.Close();
             }
+        }
+        //protected void Change(object source, EventArgs e)
+        //{
+        //    LinkButton btn = (LinkButton)(source);
+        //    string value = btn.CommandName;
+        //    try
+        //    {
+        //        if (value == "Delete")
+        //        {
+        //            // You can't delete a record with references in other tables, so delete those references first
+        //            SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE StudentID=@StudentID", connection);
+        //            SqlCommand deleteStudent = new SqlCommand("DELETE FROM Students WHERE StudentID=@StudentID", connection);
+
+        //            // Parameterize everything, even if the user isn't entering the values
+        //            deleteEnrollments.Parameters.AddWithValue("@StudentID", btn.CommandArgument);
+        //            deleteStudent.Parameters.AddWithValue("@StudentID", btn.CommandArgument);
+
+        //            connection.Open(); // open the cmd connection
+
+        //            // delete the references FIRST
+        //            deleteEnrollments.ExecuteNonQuery();
+        //            deleteStudent.ExecuteNonQuery();
+        //        }
+        //    }
+        //    finally
+        //    {
+        //        connection.Close();
+        //    }
+        //}
+
+        protected void StudentInfo_PageIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

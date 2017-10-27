@@ -13,15 +13,6 @@ namespace COMP229_Assign03 {
     public partial class Student {
         
         /// <summary>
-        /// stName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label stName;
-        
-        /// <summary>
         /// stID control.
         /// </summary>
         /// <remarks>
@@ -29,6 +20,15 @@ namespace COMP229_Assign03 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label stID;
+        
+        /// <summary>
+        /// stName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label stName;
         
         /// <summary>
         /// stDate control.
@@ -46,7 +46,7 @@ namespace COMP229_Assign03 {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater listCr;
+        protected global::System.Web.UI.WebControls.DataList listCr;
         
         /// <summary>
         /// updateInfo control.

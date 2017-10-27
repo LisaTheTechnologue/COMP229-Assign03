@@ -26,28 +26,54 @@ namespace COMP229_Assign03
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-               string ssName = Session["studentID"].ToString();
+                string studentID = Session["currentStudentID"] as string;
+                int sID;
+                int.TryParse(studentID, out sID);
+
                 //SqlCommand sqlcom = new SqlCommand("select st.* from Students st where st.StudentID = '" + ssName + "'", thisConnection);
-                SqlCommand comm = new SqlCommand("Select st.*, e.StudentID, e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
-                    " join Enrollments e on st.StudentID = e.StudentID " +
-                    "join Courses c on e.CourseID = c.CourseID " +
-                    "where st.StudentID = '" + ssName + "';", thisConnection);
-                thisConnection.Open();
-                SqlDataReader reader = comm.ExecuteReader();
-
-                listCr.DataSource = reader;
-                listCr.DataBind();
-
-                while (reader.Read())
+                SqlCommand comm = new SqlCommand("Select * from Students " +
+                    //"INNER JOIN Enrollments ON Students.StudentID = Enrollments.StudentID " +
+                    //"INNER JOIN Courses ON Courses.CourseID = Enrollments.CourseID " +
+                    "where Students.StudentID = @sID;", thisConnection);
+                comm.Parameters.Add("@sID", System.Data.SqlDbType.Int);
+                comm.Parameters["@sID"].Value = sID;
+                try
                 {
-                    stName.Text = reader["FirstMidName"].ToString() + " " + reader["LastName"].ToString();
-                    stID.Text = reader["StudentID"].ToString();
-                    stDate.Text = reader["EnrollmentDate"].ToString();
-                }
+                    thisConnection.Open();
+                    SqlDataReader reader = comm.ExecuteReader();
 
-                
-                reader.Close();
-                thisConnection.Close();
+                    if (reader.Read())
+                    {
+                        //setName
+                        stName.Text = reader["FirstMidName"] + " " + reader["LastName"];
+                        //setID
+                        stID.Text = reader["StudentID"] + "";
+                        //setDate
+                        stDate.Text = reader["EnrollmentDate"] + "";
+                    }
+
+                    reader.Close();
+                    //setCourse
+                    SqlCommand comm2 = new SqlCommand("SELECT * FROM dbo.Courses " +
+                        "INNER JOIN dbo.Enrollments ON dbo.Courses.CourseID = dbo.Enrollments.CourseID " +
+                        "WHERE dbo.Enrollments.StudentID = @sID;", thisConnection);
+                    comm2.Parameters.Add("@sID", System.Data.SqlDbType.Int);
+                    comm2.Parameters["@sID"].Value = sID;
+
+                    reader = comm2.ExecuteReader();
+                    listCr.DataSource = reader;
+                    listCr.DataBind();
+
+                    reader.Close();
+                }
+                catch
+                {
+                    Response.Write("Error retrieving user data");
+                }
+                finally
+                {
+                    thisConnection.Close();
+                }
             }
         }
         protected void Change(object source, EventArgs e)
@@ -82,7 +108,8 @@ namespace COMP229_Assign03
                 connection.Close();
             }
         }
-        protected void listCr_ItemCommand(object source, RepeaterCommandEventArgs e)
+
+        protected void listCr_ItemCommand(object source, DataListCommandEventArgs e)
         {
             if (e.CommandName == "MoreDetail")
             {
@@ -90,5 +117,13 @@ namespace COMP229_Assign03
                 Response.Redirect("Course Enrollment.aspx");
             }
         }
+        //protected void listCr_ItemCommand(object source, RepeaterCommandEventArgs e)
+        //{
+        //    if (e.CommandName == "MoreDetail")
+        //    {
+        //        Session["courseID"] = e.CommandArgument.ToString();
+        //        Response.Redirect("Course Enrollment.aspx");
+        //    }
+        //}
     }
 }

@@ -13,7 +13,7 @@ namespace COMP229_Assign03
     public partial class _Default : Page
     {
         // Building the connection from a string; for an example using the ConnectionStrings in web.config, go to line 29
-        private SqlConnection connection = new SqlConnection("Server=localhost;Initial Catalog=Comp229Assign03;Integrated Security=True");
+        private SqlConnection thisConnection;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,7 +27,7 @@ namespace COMP229_Assign03
         private void GetStudents()
         {
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
-            using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
+            using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
                 SqlCommand comm = new SqlCommand("Select LastName, FirstMidName, StudentID from Students;", thisConnection);
                 thisConnection.Open();
@@ -35,16 +35,16 @@ namespace COMP229_Assign03
 
                 listSt.DataSource = reader;
                 listSt.DataBind();
-                
+
                 reader.Close();
                 thisConnection.Close();
             }
         }
-        protected void listSt_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected void listSt_ItemCommand(object source, DataListCommandEventArgs e)
         {
             if (e.CommandName == "MoreDetail")
             {
-                Session["studentID"] = e.CommandArgument.ToString() ;
+                Session["currentStudentID"] = e.CommandArgument.ToString();
                 Response.Redirect("Student.aspx");
             }
         }

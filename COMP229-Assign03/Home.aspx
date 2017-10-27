@@ -10,8 +10,8 @@ d.	allow a user to click on a student, loading the Student Page.
     <div class="jumbotron" id="hero">
     </div>
     <asp:Label ID="employeesLabel" runat="server" />
-    <ol>
-        <asp:Repeater ID="listSt" runat="server" OnItemCommand="listSt_ItemCommand">
+    <ul>
+        <asp:DataList ID="listSt" runat="server" OnItemCommand="listSt_ItemCommand">
             <ItemTemplate>
                 <li>
                     <asp:LinkButton ID="stName" runat="server"
@@ -20,7 +20,7 @@ d.	allow a user to click on a student, loading the Student Page.
                         CommandArgument='<%#Eval("StudentID")%>' />
                 </li>
             </ItemTemplate>
-        </asp:Repeater>
-    </ol>
+        </asp:DataList>
+    </ul>
 
 </asp:Content>

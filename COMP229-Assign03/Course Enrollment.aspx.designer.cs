@@ -31,24 +31,6 @@ namespace COMP229_Assign03 {
         protected global::System.Web.UI.WebControls.GridView StudentInfo;
         
         /// <summary>
-        /// courseName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label courseName;
-        
-        /// <summary>
-        /// listSt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater listSt;
-        
-        /// <summary>
         /// studentList control.
         /// </summary>
         /// <remarks>
@@ -58,6 +40,33 @@ namespace COMP229_Assign03 {
         protected global::System.Web.UI.WebControls.DropDownList studentList;
         
         /// <summary>
+        /// txtEnrDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEnrDate;
+        
+        /// <summary>
+        /// txtGrade control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtGrade;
+        
+        /// <summary>
+        /// btnAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAdd;
+        
+        /// <summary>
         /// dbErrorMessage control.
         /// </summary>
         /// <remarks>
@@ -65,14 +74,5 @@ namespace COMP229_Assign03 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label dbErrorMessage;
-        
-        /// <summary>
-        /// updateInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton updateInfo;
     }
 }
