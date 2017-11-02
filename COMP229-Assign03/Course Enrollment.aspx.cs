@@ -36,7 +36,7 @@ namespace COMP229_Assign03
                     "where c.CourseID = @courseID;", thisConnection);
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 SqlCommand commFirstMidNameAdd = new SqlCommand("Select st.FirstMidName, st.StudentID, e.StudentID, " +
-                    "e.Grade, e.CourseID, c.CourseID, c.Title from Students st" +
+                    "e.Grade, e.CourseID, e.EnrollmentID c.CourseID, c.Title from Students st" +
                     " inner join Enrollments e on st.StudentID = e.StudentID " +
                     "inner join Courses c on e.CourseID = c.CourseID " +
                     "where not c.CourseID = @courseID;", thisConnection);
@@ -49,7 +49,7 @@ namespace COMP229_Assign03
                     StudentInfo.DataBind();
                     while (reader.Read())
                     {
-                        Session["tempEnrollmentID"] = reader["EnrollmentID"];
+                        Session["tempEnrollmentID"] = reader["EnrollmentID"] + "";
                     }
                     reader.Close();
                     SqlDataReader readerAdd = commFirstMidNameAdd.ExecuteReader();
@@ -85,7 +85,7 @@ namespace COMP229_Assign03
                     SqlDataReader readerLastNameAdd = commLastNameAdd.ExecuteReader();
                     while (readerLastNameAdd.Read())
                     {
-                        txtLastNameAdd.Text = readerLastNameAdd[0].ToString();
+                        txtLastNameAdd.Text = readerLastNameAdd["LastName"].ToString();
                         Session["tempStudentID"] = readerLastNameAdd["StudentID"];
                     }
                 }
