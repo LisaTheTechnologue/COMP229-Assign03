@@ -84,6 +84,7 @@ namespace COMP229_Assign03
             {
                 if (value == "Update")
                 {
+                    
                     Response.Redirect("Update.aspx");
                 }
                 else if (value == "Delete")
@@ -101,6 +102,7 @@ namespace COMP229_Assign03
                     // delete the references FIRST
                     deleteEnrollments.ExecuteNonQuery();
                     deleteStudent.ExecuteNonQuery();
+                    Response.Redirect("Home.aspx");
                 }
             }
             finally
@@ -117,13 +119,5 @@ namespace COMP229_Assign03
                 Response.Redirect("Course Enrollment.aspx");
             }
         }
-        //protected void listCr_ItemCommand(object source, RepeaterCommandEventArgs e)
-        //{
-        //    if (e.CommandName == "MoreDetail")
-        //    {
-        //        Session["courseID"] = e.CommandArgument.ToString();
-        //        Response.Redirect("Course Enrollment.aspx");
-        //    }
-        //}
     }
 }

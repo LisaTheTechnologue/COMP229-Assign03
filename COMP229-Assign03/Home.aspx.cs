@@ -48,5 +48,55 @@ namespace COMP229_Assign03
                 Response.Redirect("Student.aspx");
             }
         }
+
+        protected void addStudent_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
+                {
+                    //SqlCommand comm2 = new SqlCommand("INSERT INTO Students (LastName, FirstMidName, StudentID) values (@stID, @lname,@fmname, @enrDate);", thisConnection);
+                    //SqlCommand comm1 = new SqlCommand("INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) values (@enrID,@stID,@crID) ;", thisConnection);
+                    SqlCommand comm = new SqlCommand();
+                    comm.Connection = thisConnection;
+                    comm.CommandTimeout = 0;
+                    comm.CommandType = System.Data.CommandType.StoredProcedure;
+                    comm.CommandText = "InsertStudent";
+                    
+                    //comm.Parameters.AddWithValue("@enrollmentID", Int32.Parse(insertEnrollmentID.Text));
+                    comm.Parameters.AddWithValue("@grade", 0);
+                    comm.Parameters.AddWithValue("@studentID", Int32.Parse(insertStudentID.Text));
+                    comm.Parameters.AddWithValue("@courseID", Int32.Parse(insertCourseID.Text));
+                    comm.Parameters.AddWithValue("@fmname", insertStudentFirstMidName.Text);
+                    comm.Parameters.AddWithValue("@lname", insertStudentLastName.Text);
+                    comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(insertStudentEnrollmentDate.Text));
+                    try
+                    {
+                        thisConnection.Open();
+                        comm.ExecuteNonQuery();
+                        errorMsg.Text = "Inserted new student!";
+                    }
+                    catch (SqlException error)
+                    {
+                        errorMsg.Text += error.Message;
+                    }
+                    finally
+                    {
+                        thisConnection.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMsg.Text += ex.Message;
+            }
+        }
+
+        protected void timePicker_changed(object sender, EventArgs e)
+        {
+            DateTime dateOnly = CalendarDate.SelectedDate;
+            insertStudentEnrollmentDate.Text = dateOnly.Date.ToString("MM/dd/yyyy");
+        }
     }
 }

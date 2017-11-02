@@ -13,15 +13,6 @@ namespace COMP229_Assign03 {
     public partial class Contact {
         
         /// <summary>
-        /// UpdatePanel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
         /// StudentInfo control.
         /// </summary>
         /// <remarks>
@@ -29,6 +20,15 @@ namespace COMP229_Assign03 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView StudentInfo;
+        
+        /// <summary>
+        /// lblFullName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFullName;
         
         /// <summary>
         /// studentList control.
@@ -40,6 +40,24 @@ namespace COMP229_Assign03 {
         protected global::System.Web.UI.WebControls.DropDownList studentList;
         
         /// <summary>
+        /// txtLastNameAdd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLastNameAdd;
+        
+        /// <summary>
+        /// lblEnrDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEnrDate;
+        
+        /// <summary>
         /// txtEnrDate control.
         /// </summary>
         /// <remarks>
@@ -47,6 +65,15 @@ namespace COMP229_Assign03 {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEnrDate;
+        
+        /// <summary>
+        /// lblGrade control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblGrade;
         
         /// <summary>
         /// txtGrade control.
