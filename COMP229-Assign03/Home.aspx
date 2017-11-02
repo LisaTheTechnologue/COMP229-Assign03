@@ -24,7 +24,6 @@ d.	allow a user to click on a student, loading the Student Page.
     </ul>
     
     <asp:Label for="insertCourseID"              runat="server" Text="Course ID: "        AutoPostBack="True"     /><asp:TextBox ID="insertCourseID"              runat="server" CssClass="form-group"></asp:TextBox><br>
-    <%--<asp:Label for="insertEnrollmentID"          runat="server" Text="Enrollment ID: "    AutoPostBack="True"     />--%><%--<asp:TextBox ID="insertEnrollmentID"          runat="server" CssClass="form-group"></asp:TextBox>--%><br>
     <asp:Label FOR="insertStudentID"             runat="server" Text="Student ID: "       AutoPostBack="True"     /><asp:TextBox ID="insertStudentID"             runat="server" CssClass="form-group"></asp:TextBox><br>
     <asp:Label for="insertStudentFirstMidName"   runat="server" Text="First Name: "       AutoPostBack="True"      /><asp:TextBox ID="insertStudentFirstMidName"   runat="server" CssClass="form-group"></asp:TextBox><br>
     <asp:Label for="insertStudentLastName"       runat="server" Text="Last Name: "        AutoPostBack="True"       /><asp:TextBox ID="insertStudentLastName"       runat="server" CssClass="form-group"></asp:TextBox><br>
@@ -40,6 +39,6 @@ d.	allow a user to click on a student, loading the Student Page.
         <TitleStyle BackColor="Black" Font-Bold="True" Font-Size="13pt" ForeColor="White" Height="14pt" />
         <TodayDayStyle BackColor="#CCCC99" />
     </asp:Calendar><br>
-    <asp:Button ID="addStudent" runat="server" Text="Add" CssClass="btn btn-primary" CommandName="addStudent" OnClick="addStudent_Click"/>
+    <asp:Button ID="addStudent" runat="server" Text="Add" CssClass="btn btn-primary" CommandName="addStudent" OnClick="addStudent_Click"/> <br />
     <asp:Label ID="errorMsg" runat="server" />
 </asp:Content>

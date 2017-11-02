@@ -52,8 +52,7 @@ namespace COMP229_Assign03
         protected void addStudent_Click(object sender, EventArgs e)
         {
             try
-            {
-                
+            {                
                 using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
                 {
                     //SqlCommand comm2 = new SqlCommand("INSERT INTO Students (LastName, FirstMidName, StudentID) values (@stID, @lname,@fmname, @enrDate);", thisConnection);

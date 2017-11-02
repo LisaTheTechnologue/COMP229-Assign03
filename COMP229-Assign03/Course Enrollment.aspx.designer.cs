@@ -58,13 +58,22 @@ namespace COMP229_Assign03 {
         protected global::System.Web.UI.WebControls.Label lblEnrDate;
         
         /// <summary>
-        /// txtEnrDate control.
+        /// txtStudentEnrollmentDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEnrDate;
+        protected global::System.Web.UI.WebControls.TextBox txtStudentEnrollmentDate;
+        
+        /// <summary>
+        /// CalendarDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar CalendarDate;
         
         /// <summary>
         /// lblGrade control.

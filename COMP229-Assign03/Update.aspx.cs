@@ -49,7 +49,7 @@ namespace COMP229_Assign03
                 }
             }
         }
-      
+
         protected void studentData_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
         {
             int studentID = (int)studentData.DataKey.Value;
@@ -62,32 +62,21 @@ namespace COMP229_Assign03
 
             string newFMName = newFirstMidNameTextBox.Text;
             string newLName = newLastNameTextBox.Text;
-            // Date strings are interpreted according to the current culture.
-            // If the culture is en-US, this is interpreted as "January 8, 2008",
-            // but if the user's computer is fr-FR, this is interpreted as "August 1, 2008"
-            string date = newEnrollmentDateTextBox.Text;
-            // Specify exactly how to interpret the string.
-            IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
-
-            // Alternate choice: If the string has been input by an end user, you might 
-            // want to format it according to the current culture:
-            // IFormatProvider culture = System.Threading.Thread.CurrentThread.CurrentCulture;
-            DateTime newEnrollment = DateTime.Parse(date, culture, System.Globalization.DateTimeStyles.AssumeLocal);
-
 
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("UpdateItem", thisConnection);
-                comm.CommandType = CommandType.StoredProcedure;
-                comm.Parameters.Add("StudentID", SqlDbType.Int);
-                comm.Parameters["StudentID"].Value = studentID;
-                comm.Parameters.Add("newFMName", SqlDbType.NVarChar, 50);
-                comm.Parameters["newFMName"].Value = newFMName;
-                comm.Parameters.Add("newLName", SqlDbType.NVarChar, 50);
-                comm.Parameters["newLName"].Value = newLName;
-                comm.Parameters.Add("newEnrollment", SqlDbType.DateTime);
-                comm.Parameters["newEnrollment"].Value = newEnrollment;
-
+                SqlCommand comm = new SqlCommand();
+                comm.Connection = thisConnection;
+                comm.CommandTimeout = 0;
+                comm.CommandType = System.Data.CommandType.StoredProcedure;
+                comm.CommandText = "UpdateDelete";
+                comm.CommandType = System.Data.CommandType.StoredProcedure;
+                comm.Parameters.AddWithValue("@StatementType", "update");
+                comm.Parameters.AddWithValue("@studentID", studentID);
+                comm.Parameters.AddWithValue("@fmname", newFMName);
+                comm.Parameters.AddWithValue("@lname", newLName);
+                comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(newEnrollmentDateTextBox.Text));
+               
                 try
                 {
                     thisConnection.Open();
