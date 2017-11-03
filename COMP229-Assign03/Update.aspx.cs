@@ -43,6 +43,10 @@ namespace COMP229_Assign03
                     studentData.DataBind();
                     reader.Close();
                 }
+                catch (Exception e)
+                {
+                    errorMsg.Text = e.Message;
+                }
                 finally
                 {
                     thisConnection.Close();

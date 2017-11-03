@@ -7,7 +7,7 @@ b.	allow for changing any data fields.
 c.	update changed fields in the database.-->
     <asp:DetailsView ID="studentData" runat="server" AutoGenerateColumns="false" 
         OnModeChanging="studentData_ModeChanging" OnItemUpdating="studentData_ItemUpdating"
-        DataKeyNames="StudentID" AllowPaging="true">
+        DataKeyNames="StudentID" >
         <Fields>
             <asp:BoundField HeaderText="First Name" DataField="FirstMidName" />
             
@@ -23,5 +23,6 @@ c.	update changed fields in the database.-->
        
     </asp:DetailsView>
     <br />
+    <asp:Label ID="errorMsg" runat="server"></asp:Label>
 
 </asp:Content>

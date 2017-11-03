@@ -36,7 +36,7 @@ namespace COMP229_Assign03
                     "where c.CourseID = @courseID;", thisConnection);
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 SqlCommand commFirstMidNameAdd = new SqlCommand("Select st.FirstMidName, st.StudentID, e.StudentID, " +
-                    "e.Grade, e.CourseID, e.EnrollmentID c.CourseID, c.Title from Students st" +
+                    "e.Grade, e.CourseID, e.EnrollmentID, c.CourseID, c.Title from Students st" +
                     " inner join Enrollments e on st.StudentID = e.StudentID " +
                     "inner join Courses c on e.CourseID = c.CourseID " +
                     "where not c.CourseID = @courseID;", thisConnection);
@@ -47,10 +47,6 @@ namespace COMP229_Assign03
                     SqlDataReader reader = comm.ExecuteReader();
                     StudentInfo.DataSource = reader;
                     StudentInfo.DataBind();
-                    while (reader.Read())
-                    {
-                        Session["tempEnrollmentID"] = reader["EnrollmentID"] + "";
-                    }
                     reader.Close();
                     SqlDataReader readerAdd = commFirstMidNameAdd.ExecuteReader();
                     studentList.DataSource = readerAdd;
@@ -111,7 +107,6 @@ namespace COMP229_Assign03
                 comm.CommandType = System.Data.CommandType.StoredProcedure;
                 comm.CommandText = "InsertStudent";
 
-                //comm.Parameters.AddWithValue("@enrollmentID", Int32.Parse(insertEnrollmentID.Text));
                 comm.Parameters.AddWithValue("@grade", Int32.Parse(txtGrade.Text));
                 comm.Parameters.AddWithValue("@studentID", Int32.Parse(Session["tempStudentID"].ToString()));
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
@@ -143,15 +138,9 @@ namespace COMP229_Assign03
                 comm.Connection = thisConnection;
                 comm.CommandTimeout = 0;
                 comm.CommandType = System.Data.CommandType.StoredProcedure;
-                comm.CommandText = "UpdateDelete";
-                comm.CommandType = System.Data.CommandType.StoredProcedure;
-                comm.Parameters.AddWithValue("@StatementType", "delete");
-                comm.Parameters.AddWithValue("@enrollmentID", Int32.Parse(Session["tempEnrollmentID"].ToString()));
-                comm.Parameters.AddWithValue("@studentID", Int32.Parse(Session["tempStudentID"].ToString()));
-                comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
-                comm.Parameters.AddWithValue("@fmname", studentList.SelectedValue);
-                comm.Parameters.AddWithValue("@lname", txtLastNameAdd.Text);
-                comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(txtStudentEnrollmentDate.Text));
+                comm.CommandText = "DeleteStudent";
+                               
+                comm.Parameters.AddWithValue("@studentID", Int32.Parse(StudentInfo.DataKeys[e.RowIndex].Values[0].ToString()));
                 try
                 {
                     thisConnection.Open();
@@ -164,6 +153,7 @@ namespace COMP229_Assign03
                 finally
                 {
                     thisConnection.Close();
+                    GetStudents();
                 }
             }
         }

@@ -2,14 +2,9 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <asp:GridView ID="StudentInfo" runat="server" AutoGenerateColumns="false"
-        AlternatingRowStyle-BackColor="#C2D69B" ShowFooter="true" OnRowDeleting="StudentInfo_RowDeleting">
+        AlternatingRowStyle-BackColor="#C2D69B" ShowFooter="true" OnRowDeleting="StudentInfo_RowDeleting"
+        DataKeyNames="StudentID">
         <Columns>
-            <asp:TemplateField HeaderText="First Name">
-                <ItemTemplate>
-                    <asp:Label ID="lblFirstMidName" runat="server"
-                        Text='<%# Eval("FirstMidName")%>'></asp:Label>
-                </ItemTemplate>
-            </asp:TemplateField>
             <asp:TemplateField HeaderText="First Name">
                 <ItemTemplate>
                     <asp:Label ID="lblFirstName" runat="server"
@@ -57,7 +52,6 @@
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:LinkButton ID="lnkRemove" runat="server"
-                        CommandArgument='<%# Eval("StudentID")%>'
                         OnClientClick="return confirm('Do you want to delete?')"
                         Text="Delete" CommandName="Delete"></asp:LinkButton>
                 </ItemTemplate>

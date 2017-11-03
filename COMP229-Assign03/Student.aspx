@@ -46,4 +46,6 @@ d.	include parameterized SQL queries for all actions.
     <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" CommandArgument="Update" Text="Update Info" runat="server" />
     <br />
     <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete this Student" runat="server" CommandArgument='<%#Eval("StudentID")%>' />
+    <br />
+    <asp:Label ID ="errorMsg" runat="server" />
 </asp:Content>

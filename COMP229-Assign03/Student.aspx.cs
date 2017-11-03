@@ -11,8 +11,7 @@ namespace COMP229_Assign03
 {
     public partial class Student : System.Web.UI.Page
     {
-        // Building the connection from a string; for an example using the ConnectionStrings in web.config, go to line 29
-        private SqlConnection connection = new SqlConnection("Server=localhost;Initial Catalog=Comp229Assign03;Integrated Security=True");
+        private SqlConnection thisConnection;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,7 +23,7 @@ namespace COMP229_Assign03
         private void GetStInfo()
         {
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
-            using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
+            using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
                 string studentID = Session["currentStudentID"] as string;
                 int sID;
@@ -80,34 +79,38 @@ namespace COMP229_Assign03
         {
             LinkButton btn = (LinkButton)(source);
             string value = btn.CommandName;
-            try
+            if (value == "Update")
             {
-                if (value == "Update")
-                {
-                    
-                    Response.Redirect("Update.aspx");
-                }
-                else if (value == "Delete")
-                {
-                    // You can't delete a record with references in other tables, so delete those references first
-                    SqlCommand deleteEnrollments = new SqlCommand("DELETE FROM Enrollments WHERE StudentID=@StudentID", connection);
-                    SqlCommand deleteStudent = new SqlCommand("DELETE FROM Students WHERE StudentID=@StudentID", connection);
-
-                    // Parameterize everything, even if the user isn't entering the values
-                    deleteEnrollments.Parameters.AddWithValue("@StudentID", btn.CommandArgument);
-                    deleteStudent.Parameters.AddWithValue("@StudentID", btn.CommandArgument);
-
-                    connection.Open(); // open the cmd connection
-
-                    // delete the references FIRST
-                    deleteEnrollments.ExecuteNonQuery();
-                    deleteStudent.ExecuteNonQuery();
-                    Response.Redirect("Home.aspx");
-                }
+                Response.Redirect("Update.aspx");
             }
-            finally
+            else if (value == "Delete")
             {
-                connection.Close();
+                try
+                {
+                    using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
+                    {
+                        SqlCommand comm = new SqlCommand();
+                        comm.Connection = thisConnection;
+                        comm.CommandTimeout = 0;
+                        comm.CommandType = System.Data.CommandType.StoredProcedure;
+                        comm.CommandText = "DeleteStudent";
+
+                        comm.Parameters.AddWithValue("@studentID", btn.CommandArgument);
+
+                        thisConnection.Open(); // open the cmd connection
+                        comm.ExecuteNonQuery();
+                        GetStInfo();
+                        Response.Redirect("Home.aspx");
+                    }
+                }
+                catch (Exception exp)
+                {
+                    errorMsg.Text = exp.Message;
+                }
+                finally
+                {
+                    thisConnection.Close();
+                }
             }
         }
 
