@@ -7,7 +7,8 @@ b.	allow for changing any data fields.
 c.	update changed fields in the database.-->
     <asp:DetailsView ID="studentData" runat="server" AutoGenerateColumns="false"
         OnModeChanging="studentData_ModeChanging" OnItemUpdating="studentData_ItemUpdating"
-        DataKeyNames="StudentID" OnItemCommand="DetailsViewExample_ItemCommand">
+        DataKeyNames="StudentID" OnItemCommand="DetailsViewExample_ItemCommand"
+        OnPageIndexChanging="studentData_PageIndexChanging">
         <Fields>
             <asp:TemplateField HeaderText="First Name">
                 <ItemTemplate>
@@ -52,7 +53,7 @@ c.	update changed fields in the database.-->
                 </EditItemTemplate>
 
             </asp:TemplateField>
-            <asp:CommandField ShowEditButton="True" />
+            <asp:CommandField Visible="true" ShowCancelButton="true" ShowEditButton="true" />
         </Fields>
         <HeaderTemplate>
             <%#Eval("StudentID")%>

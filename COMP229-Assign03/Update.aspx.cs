@@ -65,15 +65,7 @@ namespace COMP229_Assign03
                     studentData.ChangeMode(DetailsViewMode.ReadOnly);
                     GetUpdate();
                     break;
-                case "New":
-                    studentData.ChangeMode(DetailsViewMode.Insert);
-                    GetUpdate();
-                    break;
-                case "timePicker":
-                    DateTime dateOnly = CalendarDate.SelectedDate;
-                    txtEnrDate.Text = dateOnly.Date.ToString("MM/dd/yyyy");
-                    break;
-            }
+                            }
         }
         protected void studentData_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
         {
@@ -100,7 +92,7 @@ namespace COMP229_Assign03
                 comm.Parameters.AddWithValue("@fmname", newFMName);
                 comm.Parameters.AddWithValue("@lname", newLName);
                 comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(newEnrollmentDateTextBox.Text));
-               
+
                 try
                 {
                     thisConnection.Open();
@@ -114,7 +106,9 @@ namespace COMP229_Assign03
                 GetUpdate();
             }
         }
+        
 
+        
         protected void studentData_ModeChanging(object sender, DetailsViewModeEventArgs e)
         {
             // Change current mode to the selected one
@@ -122,10 +116,10 @@ namespace COMP229_Assign03
             // Rebind the grid
             GetUpdate();
         }
-        protected void timePicker_changed(object sender, EventArgs e)
+        protected void studentData_PageIndexChanging(object sender, DetailsViewPageEventArgs e)
         {
-            DateTime dateOnly = CalendarDate.SelectedDate;
-            txtEnrDate.Text = dateOnly.Date.ToString("MM/dd/yyyy");
+            studentData.PageIndex = e.NewPageIndex;
+            GetUpdate();
         }
     }
 }
