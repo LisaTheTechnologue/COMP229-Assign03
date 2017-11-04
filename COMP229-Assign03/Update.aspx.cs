@@ -26,30 +26,18 @@ namespace COMP229_Assign03
 
         private void GetUpdate()
         {
-            // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
+            //code from aspsnippets.com
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                string studentID = Session["currentStudentID"].ToString();
-                SqlCommand comm = new SqlCommand("Select * from Students"
-                    + " where StudentID = @stID ; ", thisConnection);
-                comm.Parameters.Add("@stID", SqlDbType.Int);
-                comm.Parameters["@stID"].Value = Int32.Parse(studentID);
-                try
+                int studentID = Int32.Parse(Session["currentStudentID"].ToString());
+                using (SqlCommand comm = new SqlCommand("Select * from Students s join Enrollments e on e.StudentID = s.StudentID where s.StudentID = " + studentID + " ; ", thisConnection))
                 {
-                    thisConnection.Open();
-                    SqlDataReader reader = comm.ExecuteReader();
-                    studentData.DataSource = reader;
-                    //studentData.DataKeyNames = new string[] { "studentID" };
+                    comm.Connection = thisConnection;
+                    SqlDataAdapter ad = new SqlDataAdapter(comm);
+                    DataSet ds = new DataSet();
+                    ad.Fill(ds,"xyz");
+                    studentData.DataSource = ds.Tables[0];
                     studentData.DataBind();
-                    reader.Close();
-                }
-                catch (Exception e)
-                {
-                    errorMsg.Text = e.Message;
-                }
-                finally
-                {
-                    thisConnection.Close();
                 }
             }
         }
@@ -65,7 +53,7 @@ namespace COMP229_Assign03
                     studentData.ChangeMode(DetailsViewMode.ReadOnly);
                     GetUpdate();
                     break;
-                            }
+            }
         }
         protected void studentData_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
         {
@@ -76,10 +64,11 @@ namespace COMP229_Assign03
             (TextBox)studentData.FindControl("txtLastName");
             TextBox newEnrollmentDateTextBox =
             (TextBox)studentData.FindControl("txtEnrollmentDate");
-
+            TextBox newGradeTextBox =
+            (TextBox)studentData.FindControl("txtGrade");
             string newFMName = newFirstMidNameTextBox.Text;
             string newLName = newLastNameTextBox.Text;
-
+            int newGrade = Int32.Parse(newGradeTextBox.Text);
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
                 SqlCommand comm = new SqlCommand();
@@ -91,8 +80,8 @@ namespace COMP229_Assign03
                 comm.Parameters.AddWithValue("@studentID", studentID);
                 comm.Parameters.AddWithValue("@fmname", newFMName);
                 comm.Parameters.AddWithValue("@lname", newLName);
-                comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(newEnrollmentDateTextBox.Text));
-
+                comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime((TextBox)studentData.FindControl("txtEnrDate")));
+                comm.Parameters.AddWithValue("@grade", newGrade);
                 try
                 {
                     thisConnection.Open();
@@ -106,15 +95,10 @@ namespace COMP229_Assign03
                 GetUpdate();
             }
         }
-        
 
-        
         protected void studentData_ModeChanging(object sender, DetailsViewModeEventArgs e)
         {
-            // Change current mode to the selected one
-            studentData.ChangeMode(e.NewMode);
-            // Rebind the grid
-            GetUpdate();
+
         }
         protected void studentData_PageIndexChanging(object sender, DetailsViewPageEventArgs e)
         {

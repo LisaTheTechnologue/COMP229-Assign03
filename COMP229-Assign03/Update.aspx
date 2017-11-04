@@ -8,8 +8,18 @@ c.	update changed fields in the database.-->
     <asp:DetailsView ID="studentData" runat="server" AutoGenerateColumns="false"
         OnModeChanging="studentData_ModeChanging" OnItemUpdating="studentData_ItemUpdating"
         DataKeyNames="StudentID" OnItemCommand="DetailsViewExample_ItemCommand"
-        OnPageIndexChanging="studentData_PageIndexChanging">
+        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="8" ForeColor="Black" GridLines="Vertical" AutoGenerateRows="False" CellSpacing="2" Height="60px" HorizontalAlign="Center" Width="220px">
+        <AlternatingRowStyle BackColor="#CCCCCC" />
+        <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
         <Fields>
+            <asp:TemplateField HeaderText="StudentID" Visible="True" InsertVisible="True">
+                <ItemTemplate>
+                    <asp:Label ID="lblStudentID" Text='<%# Eval("StudentID") %>' runat="server"></asp:Label>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:TextBox ID="txtStudentID" runat="server" Text='<%# Bind("StudentID") %>' MaxLength="10" />
+                </EditItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="First Name">
                 <ItemTemplate>
                     <asp:Label ID="lblFirstName" runat="server"
@@ -36,10 +46,10 @@ c.	update changed fields in the database.-->
                 <EditItemTemplate>
                     <asp:TextBox ID="txtEnrDate" runat="server"
                         Text='<%# Eval("EnrollmentDate")%>' ReadOnly="true"></asp:TextBox>
-                    <asp:Calendar ID="CalendarDate" runat="server"  
-                        BackColor="White" BorderColor="Black" DayNameFormat="Shortest" 
-                        Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px" 
-                        NextPrevFormat="FullMonth" OnSelectionChanged="CalendarDate_SelectionChanged" 
+                    <asp:Calendar ID="CalendarDate" runat="server"
+                        BackColor="White" BorderColor="Black" DayNameFormat="Shortest"
+                        Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px"
+                        NextPrevFormat="FullMonth" OnSelectionChanged="CalendarDate_SelectionChanged"
                         TitleFormat="Month" Width="400px">
                         <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" ForeColor="#333333" Height="10pt" />
                         <DayStyle Width="14%" />
@@ -51,13 +61,22 @@ c.	update changed fields in the database.-->
                         <TodayDayStyle BackColor="#CCCC99" />
                     </asp:Calendar>
                 </EditItemTemplate>
-
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="Grade">
+                <ItemTemplate>
+                    <asp:Label ID="lblGrade" runat="server"
+                        Text='<%# Eval("Grade")%>'></asp:Label>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:TextBox ID="txtGrade" runat="server" Text='<%# Eval("Grade")%>'></asp:TextBox>
+                </EditItemTemplate>
             </asp:TemplateField>
             <asp:CommandField Visible="true" ShowCancelButton="true" ShowEditButton="true" />
         </Fields>
-        <HeaderTemplate>
-            <%#Eval("StudentID")%>
-        </HeaderTemplate>
+
+        <FooterStyle BackColor="#CCCCCC" />
+        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
 
     </asp:DetailsView>
     <br />

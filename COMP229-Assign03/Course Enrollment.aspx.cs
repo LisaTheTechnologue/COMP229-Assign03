@@ -111,6 +111,27 @@ namespace COMP229_Assign03
                 comm.Parameters.AddWithValue("@fmname", Session["tempFirstMidName"].ToString());
                 comm.Parameters.AddWithValue("@lname", txtLastNameAdd.Text);
                 comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(txtStudentEnrollmentDate.Text));
+
+                /*
+                 * CREATE PROCEDURE InsertStudent(
+                    @studentID Int,
+                    @fmname nvarchar(50),
+                    @lname nvarchar(50),
+                    @newEnrollment date,
+                    @courseID int,
+                    @grade int)
+                    AS  
+                    BEGIN  
+	                    SET IDENTITY_INSERT [dbo].STUDENTS ON;  			
+	                    INSERT INTO [dbo].Students(StudentID, LastName,FirstMidName,EnrollmentDate)
+	                    VALUES (@studentID,@fmname,@lname,@newEnrollment);
+	                    SET IDENTITY_INSERT [dbo].STUDENTS OFF;	
+	                    SET IDENTITY_INSERT [dbo].ENROLLMENTS OFF;  
+	                    INSERT INTO [dbo].Enrollments(CourseID, StudentID, Grade)
+	                    VALUES (@courseID,@studentID, @grade );
+                    END  ;
+                 */
+
                 try
                 {
                     thisConnection.Open();
@@ -137,7 +158,7 @@ namespace COMP229_Assign03
                 comm.CommandTimeout = 0;
                 comm.CommandType = System.Data.CommandType.StoredProcedure;
                 comm.CommandText = "DeleteStudent";
-                               
+
                 comm.Parameters.AddWithValue("@studentID", Int32.Parse(StudentInfo.DataKeys[e.RowIndex].Values[0].ToString()));
                 try
                 {
