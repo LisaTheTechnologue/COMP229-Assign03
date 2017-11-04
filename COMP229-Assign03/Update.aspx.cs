@@ -74,7 +74,6 @@ namespace COMP229_Assign03
                 comm.CommandTimeout = 0;
                 comm.CommandType = System.Data.CommandType.StoredProcedure;
                 comm.CommandText = "UpdateDelete";
-                comm.CommandType = System.Data.CommandType.StoredProcedure;
                 comm.Parameters.AddWithValue("@StatementType", "update");
                 comm.Parameters.AddWithValue("@studentID", studentID);
                 comm.Parameters.AddWithValue("@fmname", newFMName);

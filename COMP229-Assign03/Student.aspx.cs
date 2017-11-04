@@ -79,6 +79,7 @@ namespace COMP229_Assign03
         {
             LinkButton btn = (LinkButton)(source);
             string value = btn.CommandName;
+            bool IsDeleted = false;
             if (value == "Update")
             {
                 Response.Redirect("Update.aspx");
@@ -99,8 +100,7 @@ namespace COMP229_Assign03
 
                         thisConnection.Open(); // open the cmd connection
                         comm.ExecuteNonQuery();
-                        GetStInfo();
-                        Response.Redirect("Home.aspx");
+                        IsDeleted = true;
                     }
                 }
                 catch (Exception exp)
@@ -110,7 +110,12 @@ namespace COMP229_Assign03
                 finally
                 {
                     thisConnection.Close();
+                    if (IsDeleted)
+                    {
+                        Response.Redirect("Home.aspx");
+                    }
                 }
+
             }
         }
 

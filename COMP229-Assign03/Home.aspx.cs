@@ -52,17 +52,15 @@ namespace COMP229_Assign03
         protected void addStudent_Click(object sender, EventArgs e)
         {
             try
-            {                
+            {
                 using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
                 {
-                    //SqlCommand comm2 = new SqlCommand("INSERT INTO Students (LastName, FirstMidName, StudentID) values (@stID, @lname,@fmname, @enrDate);", thisConnection);
-                    //SqlCommand comm1 = new SqlCommand("INSERT INTO Enrollments (EnrollmentID, StudentID, CourseID) values (@enrID,@stID,@crID) ;", thisConnection);
                     SqlCommand comm = new SqlCommand();
                     comm.Connection = thisConnection;
                     comm.CommandTimeout = 0;
                     comm.CommandType = System.Data.CommandType.StoredProcedure;
                     comm.CommandText = "InsertStudent";
-                    
+
                     //comm.Parameters.AddWithValue("@enrollmentID", Int32.Parse(insertEnrollmentID.Text));
                     comm.Parameters.AddWithValue("@grade", 0);
                     comm.Parameters.AddWithValue("@studentID", Int32.Parse(insertStudentID.Text));
@@ -75,6 +73,12 @@ namespace COMP229_Assign03
                         thisConnection.Open();
                         comm.ExecuteNonQuery();
                         errorMsg.Text = "Inserted new student!";
+                        GetStudents();
+                        insertStudentID.Text = "";
+                        insertCourseID.Text = "";
+                        insertStudentFirstMidName.Text = "";
+                        insertStudentLastName.Text = "";
+                        insertStudentEnrollmentDate.Text = "";
                     }
                     catch (SqlException error)
                     {
@@ -85,6 +89,7 @@ namespace COMP229_Assign03
                         thisConnection.Close();
                     }
                 }
+                Response.Redirect("Home.aspx");
             }
             catch (Exception ex)
             {
