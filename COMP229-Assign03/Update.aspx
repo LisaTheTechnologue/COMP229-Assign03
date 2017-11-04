@@ -35,11 +35,11 @@ c.	update changed fields in the database.-->
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:TextBox ID="txtEnrDate" runat="server"
-                        Text='<%# Eval("EnrollmentDate")%> (select below calendar)' ReadOnly="true"></asp:TextBox>
+                        Text='<%# Eval("EnrollmentDate")%>' ReadOnly="true"></asp:TextBox>
                     <asp:Calendar ID="CalendarDate" runat="server"  
                         BackColor="White" BorderColor="Black" DayNameFormat="Shortest" 
                         Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px" 
-                        NextPrevFormat="FullMonth" CommandName="timePicker" 
+                        NextPrevFormat="FullMonth" OnSelectionChanged="CalendarDate_SelectionChanged" 
                         TitleFormat="Month" Width="400px">
                         <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" ForeColor="#333333" Height="10pt" />
                         <DayStyle Width="14%" />

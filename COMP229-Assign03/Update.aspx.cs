@@ -31,15 +31,15 @@ namespace COMP229_Assign03
             {
                 string studentID = Session["currentStudentID"].ToString();
                 SqlCommand comm = new SqlCommand("Select * from Students"
-                    + " where StudentID = @ssName ; ", thisConnection);
-                comm.Parameters.Add("@ssName", SqlDbType.Int);
-                comm.Parameters["@ssName"].Value = Int32.Parse(studentID);
+                    + " where StudentID = @stID ; ", thisConnection);
+                comm.Parameters.Add("@stID", SqlDbType.Int);
+                comm.Parameters["@stID"].Value = Int32.Parse(studentID);
                 try
                 {
                     thisConnection.Open();
                     SqlDataReader reader = comm.ExecuteReader();
                     studentData.DataSource = reader;
-                    studentData.DataKeyNames = new string[] { "studentID" };
+                    //studentData.DataKeyNames = new string[] { "studentID" };
                     studentData.DataBind();
                     reader.Close();
                 }
@@ -120,6 +120,14 @@ namespace COMP229_Assign03
         {
             studentData.PageIndex = e.NewPageIndex;
             GetUpdate();
+        }
+
+        protected void CalendarDate_SelectionChanged(object sender, EventArgs e)
+        {
+            Calendar calendar = (Calendar)sender;
+            TextBox tb = (TextBox)studentData.FindControl("txtEnrDate");
+            DateTime dateOnly = calendar.SelectedDate;
+            tb.Text = dateOnly.Date.ToString("MM/dd/yyyy");
         }
     }
 }
