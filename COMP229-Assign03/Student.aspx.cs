@@ -31,8 +31,6 @@ namespace COMP229_Assign03
 
                 //SqlCommand sqlcom = new SqlCommand("select st.* from Students st where st.StudentID = '" + ssName + "'", thisConnection);
                 SqlCommand comm = new SqlCommand("Select * from Students " +
-                    //"INNER JOIN Enrollments ON Students.StudentID = Enrollments.StudentID " +
-                    //"INNER JOIN Courses ON Courses.CourseID = Enrollments.CourseID " +
                     "where Students.StudentID = @sID;", thisConnection);
                 comm.Parameters.Add("@sID", System.Data.SqlDbType.Int);
                 comm.Parameters["@sID"].Value = sID;
@@ -112,7 +110,7 @@ namespace COMP229_Assign03
                     thisConnection.Close();
                     if (IsDeleted)
                     {
-                        Response.Redirect("Home.aspx");
+                        errorMsg.Text = "Deleted";
                     }
                 }
 

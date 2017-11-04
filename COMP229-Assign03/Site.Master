@@ -45,8 +45,7 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        
                     </button>
                     <a id="logo" class="navbar-brand" href="#">
                         <img src="/Assets/personalLogo.ico" width="25" height="25" class="d-inline-block align-top" alt="logo">
@@ -56,8 +55,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/Home">Home</a></li>
-                        <li><a runat="server" href="~/Course Enrollment">Course Enrollment</a></li>
-                        <li><a runat="server" href="~/Update">Update</a></li>
+                        
                     </ul>
                 </div>
             </div>

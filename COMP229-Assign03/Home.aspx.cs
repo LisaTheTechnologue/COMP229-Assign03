@@ -72,8 +72,8 @@ namespace COMP229_Assign03
                     {
                         thisConnection.Open();
                         comm.ExecuteNonQuery();
-                        errorMsg.Text = "Inserted new student!";
-                        GetStudents();
+                        errorMsg.Text = "Inserted new student! Please reload to see the addition.";
+                        
                         insertStudentID.Text = "";
                         insertCourseID.Text = "";
                         insertStudentFirstMidName.Text = "";
@@ -89,7 +89,7 @@ namespace COMP229_Assign03
                         thisConnection.Close();
                     }
                 }
-                Response.Redirect("Home.aspx");
+                
             }
             catch (Exception ex)
             {
