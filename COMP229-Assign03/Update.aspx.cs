@@ -53,7 +53,28 @@ namespace COMP229_Assign03
                 }
             }
         }
-
+        protected void DetailsViewExample_ItemCommand(object sender, DetailsViewCommandEventArgs e)
+        {
+            switch (e.CommandName.ToString())
+            {
+                case "Edit":
+                    studentData.ChangeMode(DetailsViewMode.Edit);
+                    GetUpdate();
+                    break;
+                case "Cancel":
+                    studentData.ChangeMode(DetailsViewMode.ReadOnly);
+                    GetUpdate();
+                    break;
+                case "New":
+                    studentData.ChangeMode(DetailsViewMode.Insert);
+                    GetUpdate();
+                    break;
+                case "timePicker":
+                    DateTime dateOnly = CalendarDate.SelectedDate;
+                    txtEnrDate.Text = dateOnly.Date.ToString("MM/dd/yyyy");
+                    break;
+            }
+        }
         protected void studentData_ItemUpdating(object sender, DetailsViewUpdateEventArgs e)
         {
             int studentID = (int)studentData.DataKey.Value;
@@ -100,6 +121,11 @@ namespace COMP229_Assign03
             studentData.ChangeMode(e.NewMode);
             // Rebind the grid
             GetUpdate();
+        }
+        protected void timePicker_changed(object sender, EventArgs e)
+        {
+            DateTime dateOnly = CalendarDate.SelectedDate;
+            txtEnrDate.Text = dateOnly.Date.ToString("MM/dd/yyyy");
         }
     }
 }
