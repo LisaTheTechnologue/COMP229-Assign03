@@ -111,6 +111,8 @@ namespace COMP229_Assign03
                     if (IsDeleted)
                     {
                         errorMsg.Text = "Deleted";
+                        GetStInfo();
+                        Response.Redirect("Home.aspx");
                     }
                 }
 

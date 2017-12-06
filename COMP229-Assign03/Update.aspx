@@ -8,9 +8,11 @@ c.	update changed fields in the database.-->
     <asp:DetailsView ID="studentData" runat="server" AutoGenerateColumns="false"
         OnModeChanging="studentData_ModeChanging" OnItemUpdating="studentData_ItemUpdating"
         DataKeyNames="StudentID" OnItemCommand="DetailsViewExample_ItemCommand"
-        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="8" ForeColor="Black" GridLines="Vertical" AutoGenerateRows="False" CellSpacing="2" Height="60px" HorizontalAlign="Center" Width="220px">
-        <AlternatingRowStyle BackColor="#CCCCCC" />
-        <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#999999" 
+        BorderStyle="Solid" BorderWidth="1px" CellPadding="8" ForeColor="Black" GridLines="Vertical"
+        AutoGenerateRows="False" CellSpacing="2" Height="60px" HorizontalAlign="Center" Width="220px">
+        <AlternatingRowStyle BackColor="Grey" ForeColor="White" />
+        <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="Black" />
         <Fields>
             <asp:TemplateField HeaderText="StudentID" Visible="True" InsertVisible="True">
                 <ItemTemplate>

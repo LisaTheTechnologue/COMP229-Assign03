@@ -27,6 +27,7 @@ namespace COMP229_Assign03
         private void GetUpdate()
         {
             //code from aspsnippets.com
+
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
                 int studentID = Int32.Parse(Session["currentStudentID"].ToString());
