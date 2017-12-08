@@ -73,7 +73,7 @@ namespace COMP229_Assign03
                         thisConnection.Open();
                         comm.ExecuteNonQuery();
                         errorMsg.Text = "Inserted new student! Please reload to see the addition.";
-                        
+
                         insertStudentID.Text = "";
                         insertCourseID.Text = "";
                         insertStudentFirstMidName.Text = "";
@@ -89,7 +89,7 @@ namespace COMP229_Assign03
                         thisConnection.Close();
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -102,5 +102,6 @@ namespace COMP229_Assign03
             DateTime dateOnly = CalendarDate.SelectedDate;
             insertStudentEnrollmentDate.Text = dateOnly.Date.ToString("MM/dd/yyyy");
         }
+
     }
 }

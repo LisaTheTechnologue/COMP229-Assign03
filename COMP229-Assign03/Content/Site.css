@@ -54,3 +54,42 @@ textarea {
     background-image: url('../Assets/appleFix.jpg');
     height:648px;
 }
+
+/*Home: Add new student*/
+legend {
+    font-family: 'Lobster Two';    
+}
+
+fieldset {
+    margin: 10px 0;
+    padding: 10px;
+}
+.labelAdd {
+    text-align: center;
+}
+.textboxAdd {
+    width: 100%;
+    padding: 1px;
+    margin: 1px;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.confirm {
+    text-align:center;
+}
+.input-group-addon {
+    padding:0px;
+    text-align:center;
+}
+#MainContent_insertStudentEnrollmentDate {
+    width: 400px;
+}
+.collapse {
+    display:none;
+}
