@@ -61,7 +61,6 @@ namespace COMP229_Assign03
                     comm.CommandType = System.Data.CommandType.StoredProcedure;
                     comm.CommandText = "InsertStudent";
 
-                    //comm.Parameters.AddWithValue("@enrollmentID", Int32.Parse(insertEnrollmentID.Text));
                     comm.Parameters.AddWithValue("@grade", 0);
                     comm.Parameters.AddWithValue("@studentID", Int32.Parse(insertStudentID.Text));
                     comm.Parameters.AddWithValue("@courseID", Int32.Parse(insertCourseID.Text));
@@ -72,7 +71,7 @@ namespace COMP229_Assign03
                     {
                         thisConnection.Open();
                         comm.ExecuteNonQuery();
-                        errorMsg.Text = "Inserted new student! Please reload to see the addition.";
+                        errorMsg.Text = "Inserted new student! Please reload to see the addition.<br/>";
 
                         insertStudentID.Text = "";
                         insertCourseID.Text = "";
@@ -87,6 +86,7 @@ namespace COMP229_Assign03
                     finally
                     {
                         thisConnection.Close();
+                        GetStudents();
                     }
                 }
 

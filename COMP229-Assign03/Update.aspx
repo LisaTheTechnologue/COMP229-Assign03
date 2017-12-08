@@ -8,10 +8,10 @@ c.	update changed fields in the database.-->
     <asp:DetailsView ID="studentData" runat="server" AutoGenerateColumns="false"
         OnModeChanging="studentData_ModeChanging" OnItemUpdating="studentData_ItemUpdating"
         DataKeyNames="StudentID" OnItemCommand="DetailsViewExample_ItemCommand"
-        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#999999" 
+        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#999999"
         BorderStyle="Solid" BorderWidth="1px" CellPadding="8" ForeColor="Black" GridLines="Vertical"
         AutoGenerateRows="False" CellSpacing="2" Height="60px" HorizontalAlign="Center" Width="220px">
-        <AlternatingRowStyle BackColor="Grey" ForeColor="White" />
+        <AlternatingRowStyle ForeColor="White" />
         <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="Black" />
         <Fields>
             <asp:TemplateField HeaderText="StudentID" Visible="True" InsertVisible="True">
@@ -47,12 +47,12 @@ c.	update changed fields in the database.-->
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:TextBox ID="txtEnrDate" runat="server"
-                        Text='<%# Eval("EnrollmentDate")%>' ReadOnly="true"></asp:TextBox>
+                        Text='<%# Eval("EnrollmentDate")%>' ReadOnly="true"></asp:TextBox> <br />
                     <asp:Calendar ID="CalendarDate" runat="server"
                         BackColor="White" BorderColor="Black" DayNameFormat="Shortest"
                         Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px"
                         NextPrevFormat="FullMonth" OnSelectionChanged="CalendarDate_SelectionChanged"
-                        TitleFormat="Month" Width="400px">
+                        TitleFormat="Month" Width="300px">
                         <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" ForeColor="#333333" Height="10pt" />
                         <DayStyle Width="14%" />
                         <NextPrevStyle Font-Size="8pt" ForeColor="White" />
@@ -81,7 +81,7 @@ c.	update changed fields in the database.-->
         <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
 
     </asp:DetailsView>
-    <br />
-    <asp:Label ID="errorMsg" runat="server"></asp:Label>
-
+    <div class="confirm">
+        <asp:Label ID="errorMsg" CssClass="errorMsg" runat="server"></asp:Label>
+    </div>
 </asp:Content>

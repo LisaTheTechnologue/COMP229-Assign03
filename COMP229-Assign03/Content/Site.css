@@ -1,8 +1,6 @@
 ﻿/* Move down content because we have a fixed navbar that is 50px tall */
 body {
-    /*padding-top: 40px;
-    padding-bottom: 20px;*/
-    padding: 50px 15px;
+    background-color:lightgray;
 }
 /*Navbar fx and collapse Bootstrap*/
 .navbar {
@@ -27,6 +25,7 @@ body > .container, .body-content {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    background-color: #aeadad;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -36,10 +35,15 @@ textarea {
     max-width: 280px;
 }
 
-
+footer {
+    background-color:rgb(43, 43, 43);
+    color: white;
+    width:100%;
+    height:100px;
+}
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-    .jumbotron {
+    #hero {
         margin-top: 20px;
     }
 
@@ -52,7 +56,10 @@ textarea {
 /*Home*/
 #hero {
     background-image: url('../Assets/appleFix.jpg');
-    height:648px;
+    height:400px;
+    background: center;
+    width:100%;
+    background-repeat:no-repeat;
 }
 
 /*Home: Add new student*/
@@ -80,8 +87,12 @@ fieldset {
     border-radius: .25rem;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
+/*Button and Error Message*/
 .confirm {
     text-align:center;
+}
+.errorMsg {
+    color: red;
 }
 .input-group-addon {
     padding:0px;

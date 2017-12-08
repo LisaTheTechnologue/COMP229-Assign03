@@ -6,18 +6,19 @@
 -b.	list the selected student’s courses.
 -i.	Clicking on a course will load that course's Course Page.
 -c.	include an Update link to the Update Page. 
-d.	include parameterized SQL queries for all actions. 
+-d.	include parameterized SQL queries for all actions. 
 -e.	include a delete button to remove the selected student (and redirect to the home page). -->
-    
-            <table style="width: 700px;">
-                <tr>
 
-                    <th>Student ID     </th>
-                    <th>Full Name      </th>
-                    <th>Enrollment Date</th>
-                    <th>Course(s)      </th>
-                </tr>
-        
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Student ID     </th>
+                <th>Full Name      </th>
+                <th>Enrollment Date</th>
+                <th>Course(s)      </th>
+            </tr>
+        </thead>
+        <tbody>
             <tr>
                 <td>
                     <asp:Label ID="stID" runat="server" Text='<%#Eval("StudentID")%>' /></td>
@@ -26,26 +27,25 @@ d.	include parameterized SQL queries for all actions.
                 <td>
                     <asp:Label ID="stDate" runat="server" Text='<%#Eval("EnrollmentDate")%>' /></td>
                 <td>
-                    
-                        <asp:DataList runat="server" ID="listCr" OnItemCommand="listCr_ItemCommand">
-                            <ItemTemplate>
-                                
-                                    <asp:LinkButton ID="crName" runat="server"
-                                        Text='<%#Eval("Title") +" - Grade: " + Eval("Grade")%>'
-                                        CommandName="MoreDetail"
-                                        CommandArgument='<%#Eval("CourseID")%>' OnClick="Change"/>
-                                
-                            </ItemTemplate>
-                        </asp:DataList>
-                    
+
+                    <asp:DataList runat="server" ID="listCr" OnItemCommand="listCr_ItemCommand">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="crName" runat="server"
+                                Text='<%#Eval("Title") +" - Grade: " + Eval("Grade")%>'
+                                CommandName="MoreDetail"
+                                CommandArgument='<%#Eval("CourseID")%>' OnClick="Change" />
+                        </ItemTemplate>
+                    </asp:DataList>
+
                 </td>
             </tr>
-        
-            </table>
-        
-    <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" CommandArgument="Update" Text="Update Info" runat="server" />
-    <br />
-    <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete this Student" runat="server" CommandArgument='<%#Eval("StudentID")%>' />
-    <br />
-    <asp:Label ID ="errorMsg" runat="server" />
+        </tbody>
+    </table>
+    <div class="confirm">
+        <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" CommandArgument="Update" Text="Update Info" runat="server" />
+        <br />
+        <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete Student" runat="server" CommandArgument='<%#Eval("StudentID")%>' />
+        <br />
+        <asp:Label ID="errorMsg" class="errorMsg" runat="server" />
+    </div>
 </asp:Content>

@@ -7,9 +7,7 @@ b.	provide a list of all students’ names from the database.
 c.	allow for the addition of new students to the database.
 d.	allow a user to click on a student, loading the Student Page.
 -->
-    <div class="jumbotron" id="hero">
-    </div>
-
+    
     <!--List of Student-->
     <fieldset>
         <legend>List of Student</legend>
@@ -65,7 +63,7 @@ d.	allow a user to click on a student, loading the Student Page.
                 <br />
                 <asp:Calendar ID="CalendarDate" runat="server" CssClass="toggle" BackColor="White"
                     BorderColor="Black" DayNameFormat="Shortest" Font-Names="Times New Roman"
-                    Font-Size="10pt" ForeColor="Black" Height="220px" Width="400px"
+                    Font-Size="10pt" ForeColor="Black" Height="220px" Width="300px"
                     NextPrevFormat="FullMonth" OnSelectionChanged="timePicker_changed" TitleFormat="Month">
                     <DayHeaderStyle BackColor="#CCCCCC" Font-Bold="True" Font-Size="7pt" ForeColor="#333333" Height="10pt" />
                     <DayStyle Width="14%" />

@@ -12,7 +12,7 @@ namespace COMP229_Assign03
         protected void Page_Load(object sender, EventArgs e)
         {
             pageTitle.Text = Page.Title;
-            pageTitle.Style.Add("font-size", "100px");
+            pageTitle.Style.Add("font-size", "50px");
             pageTitle.Style.Add("font-family", "'Amatic SC', cursive");
             pageTitle.Style.Add("text-align", "center");
         }

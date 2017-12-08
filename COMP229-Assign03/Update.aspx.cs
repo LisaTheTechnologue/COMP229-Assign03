@@ -72,12 +72,11 @@ namespace COMP229_Assign03
             int newGrade = Int32.Parse(newGradeTextBox.Text);
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand();
-                comm.Connection = thisConnection;
-                comm.CommandTimeout = 0;
-                comm.CommandType = System.Data.CommandType.StoredProcedure;
-                comm.CommandText = "UpdateDelete";
-                comm.Parameters.AddWithValue("@StatementType", "update");
+                SqlCommand comm = new SqlCommand("UPDATE Students " +
+                    "SET LastName = @lname, FirstMidName = @fmname, EnrollmentDate = @newEnrollment" +
+                    " WHERE StudentID = @studentID;" +
+                    "UPDATE Enrollments SET Grade = @grade WHERE StudentID = @studentID; ",thisConnection);
+                
                 comm.Parameters.AddWithValue("@studentID", studentID);
                 comm.Parameters.AddWithValue("@fmname", newFMName);
                 comm.Parameters.AddWithValue("@lname", newLName);

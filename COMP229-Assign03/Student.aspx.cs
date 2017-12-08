@@ -91,13 +91,10 @@ namespace COMP229_Assign03
                 {
                     using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
                     {
-                        SqlCommand comm = new SqlCommand();
-                        comm.Connection = thisConnection;
-                        comm.CommandTimeout = 0;
-                        comm.CommandType = System.Data.CommandType.StoredProcedure;
-                        comm.CommandText = "DeleteStudent";
-
-                        comm.Parameters.AddWithValue("@studentID", stID);
+                        SqlCommand comm = new SqlCommand("DELETE FROM Enrollments WHERE StudentID = @studentID;" +
+                        "DELETE FROM Students WHERE StudentID = @studentID", thisConnection);
+                        
+                        comm.Parameters.AddWithValue("@studentID", stID); //server will validate
 
                         thisConnection.Open(); // open the cmd connection
                         comm.ExecuteNonQuery();

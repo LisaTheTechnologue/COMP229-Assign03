@@ -60,10 +60,10 @@
         </Columns>
         <AlternatingRowStyle BackColor="#C2D69B" />
     </asp:GridView>
-   
+
     <div class="addForm">
         <asp:Label ID="lblFullName" Text="Full name: " runat="server" AutoPostBack="true" />
-        <asp:DropDownList ID="studentList" runat="server" OnSelectedIndexChanged="Name_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
+        <asp:DropDownList ID="studentList" runat="server" OnSelectedIndexChanged="Name_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
         <br />
         <asp:Label ID="lblEnrDate" Text="Enrollment Date: " runat="server" />
         <asp:TextBox ID="txtStudentEnrollmentDate" runat="server" placeholder="please choose in the below calendar" AutoPostBack="True" ReadOnly="true"></asp:TextBox>
@@ -80,9 +80,11 @@
         <br>
         <asp:Label ID="lblGrade" Text="Grade: " runat="server" />
         <asp:TextBox ID="txtGrade" runat="server" Text="0"></asp:TextBox><br />
-        <asp:Button ID="btnAdd" runat="server" Text="Add"
-            CommandName="Add" OnClick="btnAdd_Click" />
-        <br />
-        <asp:Label ID="dbErrorMessage" ForeColor="Red" runat="server" />
+        <div class="confirm">
+            <asp:Button ID="btnAdd" runat="server" Text="Add"
+                CommandName="Add" OnClick="btnAdd_Click" />
+            <br />
+            <asp:Label ID="dbErrorMessage" class="errorMsg" runat="server" />
+        </div>
     </div>
 </asp:Content>
