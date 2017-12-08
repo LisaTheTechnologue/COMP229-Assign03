@@ -75,6 +75,9 @@ namespace COMP229_Assign03
         }
         protected void Change(object source, EventArgs e)
         {
+            string studentID = Session["currentStudentID"] as string;
+            int stID;
+            int.TryParse(studentID, out stID);
             LinkButton btn = (LinkButton)(source);
             string value = btn.CommandName;
             bool IsDeleted = false;
@@ -94,7 +97,7 @@ namespace COMP229_Assign03
                         comm.CommandType = System.Data.CommandType.StoredProcedure;
                         comm.CommandText = "DeleteStudent";
 
-                        comm.Parameters.AddWithValue("@studentID", btn.CommandArgument);
+                        comm.Parameters.AddWithValue("@studentID", stID);
 
                         thisConnection.Open(); // open the cmd connection
                         comm.ExecuteNonQuery();

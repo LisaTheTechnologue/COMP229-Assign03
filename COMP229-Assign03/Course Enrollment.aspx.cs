@@ -27,7 +27,7 @@ namespace COMP229_Assign03
         {
             studentList.Items.Add(new ListItem("--- Select Student's First Name---", ""));
             studentList.AppendDataBoundItems = true;
-            
+
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
@@ -37,33 +37,35 @@ namespace COMP229_Assign03
                     "join Courses c on e.CourseID = c.CourseID " +
                     "where c.CourseID = @courseID;", thisConnection);
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
-                SqlCommand commAdd = new SqlCommand("Select FirstMidName + ' ' + LastName as FullName, e.*, c.CourseID, c.Title from Students st" +
-                    " join Enrollments e on st.StudentID = e.StudentID " +
+                SqlCommand commAdd = new SqlCommand("Select distinct st.StudentID, FirstMidName + ' ' + LastName as FullName" +
+                    " from Students st " +
+                    "join Enrollments e on st.StudentID = e.StudentID " +
                     "join Courses c on e.CourseID = c.CourseID " +
-                    "where not c.CourseID = @courseID;", thisConnection);
+                    "where not c.CourseID =  @courseID;", thisConnection);
                 commAdd.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 try
                 {
                     thisConnection.Open();
+                    //display students in the course
                     SqlDataReader reader = comm.ExecuteReader();
                     StudentInfo.DataSource = reader;
                     StudentInfo.DataBind();
                     reader.Close();
-                    DataTable dt = new DataTable();
+                    //display students not in the course
+                    //DataTable dt = new DataTable();
                     SqlDataAdapter ad = new SqlDataAdapter(commAdd);
-                    ad.Fill(dt);
-                    if (dt.Rows.Count > 0)
-                    {
-                        studentList.DataSource = dt;
-                        studentList.DataTextField = "FullName";
-                        studentList.DataValueField = "studentID";
+                    DataSet ds = new DataSet();
+                    ad.Fill(ds);
+                                        studentList.DataSource = ds.Tables[0];
+                        studentList.DataTextField = ds.Tables[0].Columns["FullName"].ToString(); ;
+                        studentList.DataValueField = ds.Tables[0].Columns["StudentID"].ToString(); ;
                         studentList.DataBind();
-                    }
+                    
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                //catch (Exception ex)
+                //{
+                //    dbErrorMessage.Text = ex.Message;
+                //}
                 finally
                 {
                     thisConnection.Close();
@@ -71,55 +73,53 @@ namespace COMP229_Assign03
             }
         }
         protected void Name_SelectedIndexChanged(object obj, EventArgs e)
-        {
-            if (Session["tempFirstMidName"] == null)
-                dbErrorMessage.Text = "No data found";
-            // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
-            using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
-            {
-                try
-                {
-                    thisConnection.Open();
-                    SqlCommand commLastNameAdd = new SqlCommand("Select st.LastName, st.StudentID, st.FirstMidName from Students st " +
-                       "where st.FirstMidName = @FirstMidName;", thisConnection);
-                    Session["tempFirstMidName"] = studentList.SelectedValue;
-                    commLastNameAdd.Parameters.AddWithValue("@FirstMidName", Session["tempFirstMidName"].ToString());
-                    SqlDataReader readerLastNameAdd = commLastNameAdd.ExecuteReader();
-                    while (readerLastNameAdd.Read())
-                    {
-                        if (readerLastNameAdd["LastName"].ToString() != null)
-                        {
-                            txtLastNameAdd.Text = readerLastNameAdd["LastName"].ToString();
-                            Session["tempStudentID"] = readerLastNameAdd["StudentID"];
-                        }
-                        else dbErrorMessage.Text = "<li>No last name added!</li>";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    thisConnection.Close();
-                }
-            }
-        }
+        { }
+        //    // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
+        //    using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
+        //    {
+        //        try
+        //        {
+        //            thisConnection.Open();
+        //            SqlCommand commLastNameAdd = new SqlCommand("Select st.LastName, st.StudentID, st.FirstMidName from Students st " +
+        //               "where st.FirstMidName = @FirstMidName;", thisConnection);
+        //            Session["tempFirstMidName"] = studentList.SelectedValue;
+        //            commLastNameAdd.Parameters.AddWithValue("@FirstMidName", Session["tempFirstMidName"].ToString());
+        //            SqlDataReader readerLastNameAdd = commLastNameAdd.ExecuteReader();
+        //            while (readerLastNameAdd.Read())
+        //            {
+        //                if (readerLastNameAdd["LastName"].ToString() != null)
+        //                {
+        //                    txtLastNameAdd.Text = readerLastNameAdd["LastName"].ToString();
+        //                    Session["tempStudentID"] = readerLastNameAdd["StudentID"];
+        //                }
+        //                else dbErrorMessage.Text = "<li>No last name added!</li>";
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw ex;
+        //        }
+        //        finally
+        //        {
+        //            thisConnection.Close();
+        //        }
+        //    }
+        //}
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand();
-                comm.Connection = thisConnection;
-                comm.CommandTimeout = 0;
-                comm.CommandType = System.Data.CommandType.StoredProcedure;
-                comm.CommandText = "InsertStudent";
-
+                SqlCommand comm = new SqlCommand(" INSERT INTO[dbo].Enrollments(CourseID, StudentID, Grade)  " +
+                "VALUES (@courseID,@studentID, @grade );         ",thisConnection);               
+               //" SET IDENTITY_INSERT[dbo].STUDENTS OFF;                             " +
+               //" SET IDENTITY_INSERT[dbo].ENROLLMENTS OFF;                          " +
+                string name = studentList.SelectedItem.Text;
+                string[] sep_name = name.Split();
                 comm.Parameters.AddWithValue("@grade", Int32.Parse(txtGrade.Text));
-                comm.Parameters.AddWithValue("@studentID", Int32.Parse(Session["tempStudentID"].ToString()));
+                comm.Parameters.AddWithValue("@studentID", Int32.Parse(studentList.SelectedValue));
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
-                comm.Parameters.AddWithValue("@fmname", Session["tempFirstMidName"].ToString());
-                comm.Parameters.AddWithValue("@lname", txtLastNameAdd.Text);
+                comm.Parameters.AddWithValue("@fmname", sep_name[0]);
+                comm.Parameters.AddWithValue("@lname", sep_name[1]);
                 comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(txtStudentEnrollmentDate.Text));
 
                 /*
@@ -155,6 +155,7 @@ namespace COMP229_Assign03
                 finally
                 {
                     thisConnection.Close();
+                    GetStudents();
                 }
             }
         }

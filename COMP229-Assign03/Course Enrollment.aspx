@@ -64,7 +64,6 @@
     <div class="addForm">
         <asp:Label ID="lblFullName" Text="Full name: " runat="server" AutoPostBack="true" />
         <asp:DropDownList ID="studentList" runat="server" OnSelectedIndexChanged="Name_SelectedIndexChanged" AutoPostBack="true" ></asp:DropDownList>
-        <asp:TextBox ID="txtLastNameAdd" runat="server" ReadOnly="true" />
         <br />
         <asp:Label ID="lblEnrDate" Text="Enrollment Date: " runat="server" />
         <asp:TextBox ID="txtStudentEnrollmentDate" runat="server" placeholder="please choose in the below calendar" AutoPostBack="True" ReadOnly="true"></asp:TextBox>
