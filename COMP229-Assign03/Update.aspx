@@ -8,13 +8,16 @@ c.	update changed fields in the database.-->
     <asp:DetailsView ID="studentData" runat="server" AutoGenerateColumns="false"
         OnModeChanging="studentData_ModeChanging" OnItemUpdating="studentData_ItemUpdating"
         DataKeyNames="StudentID" OnItemCommand="DetailsViewExample_ItemCommand"
-        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#999999"
-        BorderStyle="Solid" BorderWidth="1px" CellPadding="8" ForeColor="Black" GridLines="Vertical"
-        AutoGenerateRows="False" CellSpacing="2" Height="60px" HorizontalAlign="Center" Width="220px">
-        <AlternatingRowStyle ForeColor="White" />
-        <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="Black" />
+        OnPageIndexChanging="studentData_PageIndexChanging" BackColor="White" BorderColor="#CCCCCC"
+        BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black"
+        AutoGenerateRows="False" Height="60px" HorizontalAlign="Center" Width="600px" GridLines="Horizontal">
+
+        <EditRowStyle BackColor="White" BorderColor="#CCCCCC"
+            BorderStyle="None" BorderWidth="1px" ForeColor="Black"
+            Height="60px" HorizontalAlign="Center" Width="600px" />
+
         <Fields>
-            <asp:TemplateField HeaderText="StudentID" Visible="True" InsertVisible="True">
+            <asp:TemplateField HeaderText="Student ID" Visible="True" InsertVisible="True">
                 <ItemTemplate>
                     <asp:Label ID="lblStudentID" Text='<%# Eval("StudentID") %>' runat="server"></asp:Label>
                 </ItemTemplate>
@@ -47,7 +50,8 @@ c.	update changed fields in the database.-->
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:TextBox ID="txtEnrDate" runat="server"
-                        Text='<%# Eval("EnrollmentDate")%>' ReadOnly="true"></asp:TextBox> <br />
+                        Text='<%# Eval("EnrollmentDate")%>' ReadOnly="true"></asp:TextBox>
+                    <br />
                     <asp:Calendar ID="CalendarDate" runat="server"
                         BackColor="White" BorderColor="Black" DayNameFormat="Shortest"
                         Font-Names="Times New Roman" Font-Size="10pt" ForeColor="Black" Height="220px"
@@ -64,6 +68,7 @@ c.	update changed fields in the database.-->
                     </asp:Calendar>
                 </EditItemTemplate>
             </asp:TemplateField>
+
             <asp:TemplateField HeaderText="Grade">
                 <ItemTemplate>
                     <asp:Label ID="lblGrade" runat="server"
@@ -76,11 +81,15 @@ c.	update changed fields in the database.-->
             <asp:CommandField Visible="true" ShowCancelButton="true" ShowEditButton="true" />
         </Fields>
 
-        <FooterStyle BackColor="#CCCCCC" />
-        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
-        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
-
+        <%--<FooterStyle BackColor="#CCCC99" ForeColor="Black" HorizontalAlign="Center" />--%>
+        
+        <HeaderStyle BackColor="#d13636" Font-Bold="True" ForeColor="White" HorizontalAlign="Center" />
+        <FieldHeaderStyle BackColor="#d13636"  Font-Bold="True" HorizontalAlign="Center" ForeColor="White"/>
+        
+        <AlternatingRowStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" /> 
+        <RowStyle BackColor="White" ForeColor="Black" HorizontalAlign="Center" />
     </asp:DetailsView>
+
     <div class="confirm">
         <asp:Label ID="errorMsg" CssClass="errorMsg" runat="server"></asp:Label>
     </div>

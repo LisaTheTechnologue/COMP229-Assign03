@@ -25,7 +25,7 @@ namespace COMP229_Assign03
 
         private void GetStudents()
         {
-            studentList.Items.Add(new ListItem("--- Select Student's First Name---", ""));
+            studentList.Items.Add(new ListItem("----- Select Student's Name -----", ""));
             studentList.AppendDataBoundItems = true;
 
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block

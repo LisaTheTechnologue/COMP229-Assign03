@@ -9,7 +9,7 @@
 -d.	include parameterized SQL queries for all actions. 
 -e.	include a delete button to remove the selected student (and redirect to the home page). -->
 
-    <table class="table table-striped">
+    <table class="table">
         <thead>
             <tr>
                 <th>Student ID     </th>
@@ -42,10 +42,14 @@
         </tbody>
     </table>
     <div class="confirm">
-        <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" CommandArgument="Update" Text="Update Info" runat="server" />
-        <br />
-        <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete Student" runat="server" CommandArgument='<%#Eval("StudentID")%>' />
-        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <asp:LinkButton ID="updateInfo" OnClick="Change" CommandName="Update" CommandArgument="Update" Text="Update Info" runat="server" CssClass="btn btn-primary" />
+            </div>
+            <div class="col-md-6">
+                <asp:LinkButton ID="deleteSt" OnClick="Change" CommandName="Delete" Text="Delete Student" runat="server" CommandArgument='<%#Eval("StudentID")%>' CssClass="btn btn-primary" />
+            </div>
+        </div>
         <asp:Label ID="errorMsg" class="errorMsg" runat="server" />
     </div>
 </asp:Content>

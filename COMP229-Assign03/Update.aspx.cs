@@ -36,7 +36,7 @@ namespace COMP229_Assign03
                     comm.Connection = thisConnection;
                     SqlDataAdapter ad = new SqlDataAdapter(comm);
                     DataSet ds = new DataSet();
-                    ad.Fill(ds,"xyz");
+                    ad.Fill(ds, "xyz");
                     studentData.DataSource = ds.Tables[0];
                     studentData.DataBind();
                 }
@@ -64,7 +64,7 @@ namespace COMP229_Assign03
             TextBox newLastNameTextBox =
             (TextBox)studentData.FindControl("txtLastName");
             TextBox newEnrollmentDateTextBox =
-            (TextBox)studentData.FindControl("txtEnrollmentDate");
+            (TextBox)studentData.FindControl("txtEnrDate");
             TextBox newGradeTextBox =
             (TextBox)studentData.FindControl("txtGrade");
             string newFMName = newFirstMidNameTextBox.Text;
@@ -72,16 +72,18 @@ namespace COMP229_Assign03
             int newGrade = Int32.Parse(newGradeTextBox.Text);
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("UPDATE Students " +
+                SqlCommand comm = new SqlCommand("UPDATE Students " + //Update in Students table
                     "SET LastName = @lname, FirstMidName = @fmname, EnrollmentDate = @newEnrollment" +
-                    " WHERE StudentID = @studentID;" +
-                    "UPDATE Enrollments SET Grade = @grade WHERE StudentID = @studentID; ",thisConnection);
+                    " WHERE StudentID = @studentID; " +
+                    //update in Enrollments table
+                    "UPDATE Enrollments SET Grade = @grade WHERE StudentID = @studentID; ", thisConnection);
                 
                 comm.Parameters.AddWithValue("@studentID", studentID);
                 comm.Parameters.AddWithValue("@fmname", newFMName);
                 comm.Parameters.AddWithValue("@lname", newLName);
-                comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime((TextBox)studentData.FindControl("txtEnrDate")));
+                comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(newEnrollmentDateTextBox.Text));
                 comm.Parameters.AddWithValue("@grade", newGrade);
+
                 try
                 {
                     thisConnection.Open();
@@ -98,7 +100,13 @@ namespace COMP229_Assign03
 
         protected void studentData_ModeChanging(object sender, DetailsViewModeEventArgs e)
         {
+            if (studentData.CurrentMode != DetailsViewMode.Edit)
+                return;
 
+            foreach (DetailsViewRow row in studentData.Rows)
+            {
+                var textbox = row.FindControl("txtEnrDate");
+            }
         }
         protected void studentData_PageIndexChanging(object sender, DetailsViewPageEventArgs e)
         {

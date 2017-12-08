@@ -7,7 +7,7 @@ b.	provide a list of all students’ names from the database.
 c.	allow for the addition of new students to the database.
 d.	allow a user to click on a student, loading the Student Page.
 -->
-    
+
     <!--List of Student-->
     <fieldset>
         <legend>List of Student</legend>
@@ -30,38 +30,38 @@ d.	allow a user to click on a student, loading the Student Page.
     <fieldset>
         <legend>Add New Student</legend>
         <div class="row">
-            <div class="col-md-3 labelAdd">
+            <div class="col-md-6 labelAdd">
                 <asp:Label for="insertCourseID" runat="server" Text="Course ID: " />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <asp:TextBox ID="insertCourseID" runat="server" CssClass="textboxAdd"></asp:TextBox>
             </div>
-            <div class="col-md-3 labelAdd">
+            <div class="col-md-6 labelAdd">
                 <asp:Label for="insertStudentID" runat="server" Text="Student ID: " />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <asp:TextBox ID="insertStudentID" runat="server" CssClass="textboxAdd"></asp:TextBox>
             </div>
-            <div class="col-md-3 labelAdd">
+            <div class="col-md-6 labelAdd">
                 <asp:Label for="insertStudentFirstMidName" runat="server" Text="First Name: " />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <asp:TextBox ID="insertStudentFirstMidName" runat="server" CssClass="textboxAdd"></asp:TextBox>
             </div>
-            <div class="col-md-3 labelAdd">
+            <div class="col-md-6 labelAdd">
                 <asp:Label for="insertStudentLastName" runat="server" Text="Last Name: " AutoPostBack="True" />
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <asp:TextBox ID="insertStudentLastName" runat="server" CssClass="textboxAdd"></asp:TextBox>
             </div>
-            <div class="col-md-4 labelAdd">
+            <div class="col-md-6 labelAdd">
                 <asp:Label for="insertStudentEnrollmentDate" runat="server" Text="Enrollment Date: " />
             </div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <asp:TextBox ID="insertStudentEnrollmentDate" runat="server" CssClass="textboxAdd"
                     placeholder="Please choose in the below calendar" AutoPostBack="True" ReadOnly="true"></asp:TextBox>
                 <br />
-                <asp:Calendar ID="CalendarDate" runat="server" CssClass="toggle" BackColor="White"
+                <asp:Calendar ID="CalendarDate" runat="server" CssClass="calendar" BackColor="White"
                     BorderColor="Black" DayNameFormat="Shortest" Font-Names="Times New Roman"
                     Font-Size="10pt" ForeColor="Black" Height="220px" Width="300px"
                     NextPrevFormat="FullMonth" OnSelectionChanged="timePicker_changed" TitleFormat="Month">
@@ -75,12 +75,13 @@ d.	allow a user to click on a student, loading the Student Page.
                     <TodayDayStyle BackColor="#CCCC99" />
                 </asp:Calendar>
             </div>
-            <div class="confirm">
-                <asp:Button ID="addStudent" runat="server" Text="Add" CssClass="btn btn-primary" CommandName="addStudent" OnClick="addStudent_Click" />
-                <br />
-                <asp:Label ID="errorMsg" runat="server" />
-            </div>
         </div>
+        <div class="confirm">
+            <asp:Button ID="addStudent" runat="server" Text="Add" CssClass="btn btn-primary" CommandName="addStudent" OnClick="addStudent_Click" />
+            <br />
+            <asp:Label ID="errorMsg" runat="server" />
+        </div>
+
     </fieldset>
 
 </asp:Content>
