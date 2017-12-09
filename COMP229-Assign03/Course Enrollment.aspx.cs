@@ -37,7 +37,8 @@ namespace COMP229_Assign03
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 SqlCommand commAdd = new SqlCommand("Select distinct st.StudentID, FirstMidName + ' ' + LastName as FullName" +
                     " from Students st " +
-                    "WHERE st.StudentID NOT IN ( SELECT e.StudentID FROM Enrollments e " +
+                    "WHERE st.StudentID NOT IN "+
+                    "( SELECT e.StudentID FROM Enrollments e " +
                     "where e.CourseID =  @courseID);", thisConnection);
                 commAdd.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 try
