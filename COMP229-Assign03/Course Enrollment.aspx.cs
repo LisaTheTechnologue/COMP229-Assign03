@@ -25,8 +25,6 @@ namespace COMP229_Assign03
 
         private void GetStudents()
         {
-            studentList.Items.Add(new ListItem("----- Select Student's Name -----", ""));
-            studentList.AppendDataBoundItems = true;
 
             // See how we can use a using statement rather than try-catch (this will close and dispose the connection similarly to a finally block
             using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
@@ -39,9 +37,8 @@ namespace COMP229_Assign03
                 comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 SqlCommand commAdd = new SqlCommand("Select distinct st.StudentID, FirstMidName + ' ' + LastName as FullName" +
                     " from Students st " +
-                    "join Enrollments e on st.StudentID = e.StudentID " +
-                    "join Courses c on e.CourseID = c.CourseID " +
-                    "where not c.CourseID =  @courseID;", thisConnection);
+                    "WHERE st.StudentID NOT IN ( SELECT e.StudentID FROM Enrollments e " +
+                    "where e.CourseID =  @courseID);", thisConnection);
                 commAdd.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 try
                 {
@@ -54,13 +51,12 @@ namespace COMP229_Assign03
                     reader.Close();
 
                     //display students not in the course
-                    SqlDataAdapter ad = new SqlDataAdapter(commAdd);
-                    DataSet ds = new DataSet();
-                    ad.Fill(ds);
-                    studentList.DataSource = ds.Tables[0];
-                    studentList.DataTextField = ds.Tables[0].Columns["FullName"].ToString(); ;
-                    studentList.DataValueField = ds.Tables[0].Columns["StudentID"].ToString(); ;
+                    studentList.DataSource = commAdd.ExecuteReader();
+                    studentList.DataTextField = "FullName";
+                    studentList.DataValueField = "StudentID";
                     studentList.DataBind();
+
+                    studentList.Items.Insert(0, new ListItem("----- Select Student's Name -----", ""));
                 }
                 catch (Exception ex)
                 {
