@@ -31,7 +31,7 @@ namespace COMP229_Assign03
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
                 int studentID = Int32.Parse(Session["currentStudentID"].ToString());
-                using (SqlCommand comm = new SqlCommand("Select * from Students s join Enrollments e on e.StudentID = s.StudentID where s.StudentID = " + studentID + " ; ", thisConnection))
+                using (SqlCommand comm = new SqlCommand("Select * from Students s where s.StudentID = " + studentID + " ; ", thisConnection))
                 {
                     comm.Connection = thisConnection;
                     SqlDataAdapter ad = new SqlDataAdapter(comm);
@@ -65,24 +65,24 @@ namespace COMP229_Assign03
             (TextBox)studentData.FindControl("txtLastName");
             TextBox newEnrollmentDateTextBox =
             (TextBox)studentData.FindControl("txtEnrDate");
-            TextBox newGradeTextBox =
-            (TextBox)studentData.FindControl("txtGrade");
+            //TextBox newGradeTextBox =
+            //(TextBox)studentData.FindControl("txtGrade");
             string newFMName = newFirstMidNameTextBox.Text;
             string newLName = newLastNameTextBox.Text;
-            int newGrade = Int32.Parse(newGradeTextBox.Text);
+            //int newGrade = Int32.Parse(newGradeTextBox.Text);
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
                 SqlCommand comm = new SqlCommand("UPDATE Students " + //Update in Students table
                     "SET LastName = @lname, FirstMidName = @fmname, EnrollmentDate = @newEnrollment" +
-                    " WHERE StudentID = @studentID; " +
+                    " WHERE StudentID = @studentID; ", thisConnection);
                     //update in Enrollments table
-                    "UPDATE Enrollments SET Grade = @grade WHERE StudentID = @studentID; ", thisConnection);
+                    //"UPDATE Enrollments SET Grade = @grade WHERE StudentID = @studentID; ", thisConnection);
                 
                 comm.Parameters.AddWithValue("@studentID", studentID);
                 comm.Parameters.AddWithValue("@fmname", newFMName);
                 comm.Parameters.AddWithValue("@lname", newLName);
                 comm.Parameters.AddWithValue("@newEnrollment", Convert.ToDateTime(newEnrollmentDateTextBox.Text));
-                comm.Parameters.AddWithValue("@grade", newGrade);
+                //comm.Parameters.AddWithValue("@grade", newGrade);
 
                 try
                 {

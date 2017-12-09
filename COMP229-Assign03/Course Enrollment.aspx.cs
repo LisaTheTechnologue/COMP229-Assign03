@@ -61,7 +61,6 @@ namespace COMP229_Assign03
                     studentList.DataTextField = ds.Tables[0].Columns["FullName"].ToString(); ;
                     studentList.DataValueField = ds.Tables[0].Columns["StudentID"].ToString(); ;
                     studentList.DataBind();
-
                 }
                 catch (Exception ex)
                 {
@@ -111,9 +110,8 @@ namespace COMP229_Assign03
         {
             using (SqlConnection thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
             {
-                SqlCommand comm = new SqlCommand("DELETE FROM Enrollments WHERE StudentID = @studentID;" +
-                        "DELETE FROM Students WHERE StudentID = @studentID", thisConnection);
-
+                SqlCommand comm = new SqlCommand("DELETE FROM Enrollments WHERE StudentID = @studentID and CourseID = @courseID;" , thisConnection);
+                comm.Parameters.AddWithValue("@courseID", Int32.Parse(Session["courseID"].ToString()));
                 comm.Parameters.AddWithValue("@studentID", Int32.Parse(StudentInfo.DataKeys[e.RowIndex].Values[0].ToString()));
                 try
                 {

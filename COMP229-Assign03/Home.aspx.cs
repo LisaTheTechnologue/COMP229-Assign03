@@ -55,13 +55,13 @@ namespace COMP229_Assign03
             {
                 using (thisConnection = new SqlConnection(WebConfigurationManager.ConnectionStrings["Comp229Assign03"].ConnectionString))
                 {
-                    SqlCommand comm = new SqlCommand();
-                    comm.Connection = thisConnection;
-                    comm.CommandTimeout = 0;
-                    comm.CommandType = System.Data.CommandType.StoredProcedure;
-                    comm.CommandText = "InsertStudent";
+                    SqlCommand comm = new SqlCommand("INSERT INTO Students (LastName, FirstMidName, EnrollmentDate) " +
+                    "VALUES(@fmname, @lname, @newEnrollment); " +
+                    
+                    "INSERT INTO Enrollments(CourseID, StudentID, Grade) " +
+                    "VALUES(@courseID, @studentID, @grade);", thisConnection);
 
-                    comm.Parameters.AddWithValue("@grade", 0);
+                    comm.Parameters.AddWithValue("@grade", Int32.Parse(insertStudentGrade.Text));
                     comm.Parameters.AddWithValue("@studentID", Int32.Parse(insertStudentID.Text));
                     comm.Parameters.AddWithValue("@courseID", Int32.Parse(insertCourseID.Text));
                     comm.Parameters.AddWithValue("@fmname", insertStudentFirstMidName.Text);
@@ -71,7 +71,7 @@ namespace COMP229_Assign03
                     {
                         thisConnection.Open();
                         comm.ExecuteNonQuery();
-                        errorMsg.Text = "Inserted new student! Please reload to see the addition.<br/>";
+                        errorMsg.Text = "Inserted new student! <br/>";
 
                         insertStudentID.Text = "";
                         insertCourseID.Text = "";

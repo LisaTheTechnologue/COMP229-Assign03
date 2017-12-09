@@ -69,15 +69,25 @@ c.	update changed fields in the database.-->
                 </EditItemTemplate>
             </asp:TemplateField>
 
-            <asp:TemplateField HeaderText="Grade">
+            <%--<asp:TemplateField HeaderText="Grade">
                 <ItemTemplate>
-                    <asp:Label ID="lblGrade" runat="server"
+                    <asp:Label ID="lblCourse" runat="server"
+                        Text='<%# Eval("Title") + " - Grade: " + Eval("Grade")%>'></asp:Label>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:TextBox ID="txtGrade" runat="server" Text='<%# Eval("Grade")%>'></asp:TextBox>
+                </EditItemTemplate>
+            </asp:TemplateField>--%>
+
+             <%--<asp:TemplateField HeaderText="Grade">
+                <ItemTemplate>
+                    <asp:Label ID="lblCourse" runat="server"
                         Text='<%# Eval("Grade")%>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
                     <asp:TextBox ID="txtGrade" runat="server" Text='<%# Eval("Grade")%>'></asp:TextBox>
                 </EditItemTemplate>
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
             <asp:CommandField Visible="true" ShowCancelButton="true" ShowEditButton="true" />
         </Fields>
 

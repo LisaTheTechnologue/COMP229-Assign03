@@ -75,11 +75,17 @@ d.	allow a user to click on a student, loading the Student Page.
                     <TodayDayStyle BackColor="#CCCC99" />
                 </asp:Calendar>
             </div>
+            <div class="col-md-6 labelAdd">
+                <asp:Label ID="lblGrade" Text="Grade: " runat="server" />
+            </div>
+            <div class="col-md-6 ">
+                <asp:TextBox ID="insertStudentGrade" runat="server" Text="0" CssClass="textboxAdd"></asp:TextBox>
+            </div>
         </div>
         <div class="confirm">
             <asp:Button ID="addStudent" runat="server" Text="Add" CssClass="btn btn-primary" CommandName="addStudent" OnClick="addStudent_Click" />
             <br />
-            <asp:Label ID="errorMsg" runat="server" />
+            <asp:Label ID="errorMsg" class="errorMsg" runat="server" />
         </div>
 
     </fieldset>
