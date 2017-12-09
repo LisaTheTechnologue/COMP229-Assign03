@@ -4,7 +4,7 @@
     <!--List of Students-->
     <fieldset>
         <legend>List of Student</legend>
-        <asp:GridView ID="StudentInfo" runat="server" AutoGenerateColumns="False"
+        <asp:GridView ID="StudentInfo" runat="server" AutoGenerateColumns="False" CssClass="studentInfo"
             AlternatingRowStyle-BackColor="#C2D69B" ShowFooter="True" OnRowDeleting="StudentInfo_RowDeleting"
             DataKeyNames="StudentID" BackColor="White" BorderColor="#999999" BorderStyle="Solid" 
             BorderWidth="1px" CellPadding="5" ForeColor="Black" GridLines="Vertical" Height="60px" HorizontalAlign="Center" Width="600px">
